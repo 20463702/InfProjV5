@@ -1,31 +1,34 @@
 using System;
 using System.Collections.Generic;
-using Enums;
-using Unity.VisualScripting;
+using Items;
 using UnityEngine;
 
 namespace Characters
 {
     
-    [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
+    [RequireComponent(typeof(Rigidbody2D))]
     public class Character : MonoBehaviour
     {
         protected Rigidbody2D Rigidbody;
-        protected BoxCollider2D BoxCollider;
-        [NonSerialized]
-        public List<Item> Inventory;
+        [field: NonSerialized]
+        public List<Item> InventoryItems { get; protected set; }
         protected float Speed;
 
-        private void Start()
+        protected void Start()
         {
             this.Rigidbody = GetComponent<Rigidbody2D>();
             this.Rigidbody.gravityScale = 0;
-            this.BoxCollider = GetComponent<BoxCollider2D>();
-            this.Inventory = new List<Item>();
+            this.InventoryItems = new List<Item>();
             this.Speed = 5f;
         }
 
-#region CharacterMovement
+        public virtual Item GiveItem(Item i)
+        {
+            this.InventoryItems.Add(i);
+            return i;
+        }
+
+#region Character Movement
 
         protected virtual void Movement() { }
 
@@ -34,6 +37,6 @@ namespace Characters
         protected void Move(float valH, float valV) =>
             this.Rigidbody.velocity = new Vector2(valH * this.Speed, valV * this.Speed);
         
-#endregion // CharacterMovement
+#endregion Character Movement
     }
 }

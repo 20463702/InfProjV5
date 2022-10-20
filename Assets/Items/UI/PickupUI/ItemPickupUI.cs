@@ -10,10 +10,16 @@ namespace Items.UI.PickupUI
     {
         private Button btnYes;
         private Button btnNo;
-        [NonSerialized]
-        public Item Item;
-        [NonSerialized]
-        public PlayerCharacter PlayerRef;
+        [field: NonSerialized]
+        public Item ItemRef { get; private set; }
+        [field: NonSerialized]
+        public PlayerCharacter PlayerRef { get; private set; }
+
+        public void SetRefs(Item itemRef, PlayerCharacter playerRef)
+        {
+            this.ItemRef = itemRef;
+            this.PlayerRef = playerRef;
+        }
 
         private void Start()
         {
@@ -30,25 +36,17 @@ namespace Items.UI.PickupUI
                 btnNo = buttons[0];
             }
             
-    #if UNITY_EDITOR
-            Debug.Log($"{btnYes}\n{btnNo}");
-    #endif // UNITY_EDITOR
-
             btnNo.onClick.AddListener(() => { DestroyImmediate(this.gameObject); });
             btnYes.onClick.AddListener(PickUp);
         }
 
         private void PickUp()
         {
-            PlayerRef.Inventory.Add(Item);
-            Destroy(Item.gameObject);
-            
-#if UNITY_EDITOR
-            foreach (var item in PlayerRef.Inventory)
-                Debug.Log(item);
-#endif // UNITY_EDITOR
+            PlayerRef.GiveItem(ItemRef);
             
             DestroyImmediate(this.gameObject);
+
+            ItemRef.gameObject.SetActive(false);
         }
     }
 }
