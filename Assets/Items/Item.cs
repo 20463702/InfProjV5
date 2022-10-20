@@ -1,4 +1,3 @@
-using System;
 using Characters.PlayerCharacter;
 using Items.UI.PickupUI;
 using Unity.VisualScripting;
@@ -9,17 +8,15 @@ namespace Items
     [RequireComponent(typeof(BoxCollider2D))]
     public class Item : MonoBehaviour
     {
-        protected BoxCollider2D BoxCollider;
         [SerializeField]
         private GameObject pickupUIPrefab;
         private PlayerCharacter _playerRef;
         private float _pickupRange;
         public byte quantity = 1;
-        public byte id = 0;
+        public byte id;
 
         protected void Start()
         {
-            BoxCollider = GetComponent<BoxCollider2D>();
             _playerRef = GameObject.Find("Player").ConvertTo<PlayerCharacter>();
         }
 

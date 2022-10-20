@@ -1,7 +1,6 @@
 using Items;
 using UnityEngine;
 using UnityEngine.UI;
-using Debug = System.Diagnostics.Debug;
 
 namespace Characters.PlayerCharacter.InventorySystem.ItemMenu
 {

@@ -4,7 +4,6 @@ using System.Linq;
 using Items;
 using JetBrains.Annotations;
 using UnityEngine;
-using Debug = System.Diagnostics.Debug;
 
 namespace Characters
 {

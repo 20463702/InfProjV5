@@ -41,7 +41,7 @@ namespace Characters.PlayerCharacter
             }
         }
 
-        public override Item GiveItem(Item i, [CanBeNull] Character other)
+        public override Item GiveItem(Item i, Character other)
         {
             _ = base.GiveItem(i, other);
             inventoryRef.InvUpdate(InventoryItems);
