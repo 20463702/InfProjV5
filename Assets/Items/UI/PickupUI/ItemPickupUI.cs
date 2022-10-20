@@ -17,34 +17,26 @@ namespace Items.UI.PickupUI
 
         public void SetRefs(Item itemRef, PlayerCharacter playerRef)
         {
-            this.ItemRef = itemRef;
-            this.PlayerRef = playerRef;
+            ItemRef = itemRef;
+            PlayerRef = playerRef;
         }
 
         private void Start()
         {
             var buttons = GetComponentsInChildren<Button>();
 
-            if (buttons[0].name == "btnYes")
-            {
-                _btnYes = buttons[0];
-                _btnNo = buttons[1];
-            }
-            else
-            {
-                _btnYes = buttons[1];
-                _btnNo = buttons[0];
-            }
+            _btnYes = buttons[0];
+            _btnNo = buttons[1];
             
-            _btnNo.onClick.AddListener(() => { DestroyImmediate(this.gameObject); });
+            _btnNo.onClick.AddListener(() => { DestroyImmediate(gameObject); });
             _btnYes.onClick.AddListener(PickUp);
         }
 
         private void PickUp()
         {
-            PlayerRef.GiveItem(ItemRef);
+            PlayerRef.GiveItem(ItemRef, null);
             
-            DestroyImmediate(this.gameObject);
+            DestroyImmediate(gameObject);
 
             ItemRef.gameObject.SetActive(false);
         }

@@ -1,15 +1,16 @@
 using System.Diagnostics;
 using Characters.PlayerCharacter.InventorySystem;
 using Items;
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Characters.PlayerCharacter
 {
     public class PlayerCharacter : Character
     {
-        [SerializeField]
-        private GameObject inventoryUIPrefab;
-        private Inventory _inventoryRef;
+        [FormerlySerializedAs("_inventoryRef")] [SerializeField]
+        public Inventory inventoryRef;
         private Stopwatch _invToggleSw = new();
 
         protected new void Start()
@@ -17,33 +18,33 @@ namespace Characters.PlayerCharacter
             base.Start();
 
 #region Inventory Setup
-            this._inventoryRef = this.gameObject.GetComponentInChildren<Inventory>();
-            this._inventoryRef.gameObject.SetActive(false);
-            this._invToggleSw.Start();
+            inventoryRef = gameObject.GetComponentInChildren<Inventory>();
+            inventoryRef.gameObject.SetActive(false);
+            _invToggleSw.Start();
 #endregion Inventory Setup
         }
         protected void Update()
         {
-            this.Movement();
-            this.InventoryToggle();
+            Movement();
+            InventoryToggle();
         }
 
         protected override void Movement() =>
-            this.Move(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            Move(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
         private void InventoryToggle()
         {
-            if (Input.GetKey(KeyCode.I) && this._invToggleSw.ElapsedMilliseconds >= 500)
+            if (Input.GetKey(KeyCode.I) && _invToggleSw.ElapsedMilliseconds >= 500)
             {
-                this._inventoryRef.gameObject.SetActive(!this._inventoryRef.gameObject.activeInHierarchy);
-                this._invToggleSw.Restart();
+                inventoryRef.gameObject.SetActive(!inventoryRef.gameObject.activeInHierarchy);
+                _invToggleSw.Restart();
             }
         }
 
-        public override Item GiveItem(Item i)
+        public override Item GiveItem(Item i, [CanBeNull] Character other)
         {
-            this.InventoryItems.Add(i);
-            this._inventoryRef.InvUpdate(this.InventoryItems);
+            _ = base.GiveItem(i, other);
+            inventoryRef.InvUpdate(InventoryItems);
             
             return i;
         }

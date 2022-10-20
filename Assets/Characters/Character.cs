@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Items;
+using JetBrains.Annotations;
 using UnityEngine;
+using Debug = System.Diagnostics.Debug;
 
 namespace Characters
 {
@@ -16,15 +19,45 @@ namespace Characters
 
         protected void Start()
         {
-            this.Rigidbody = GetComponent<Rigidbody2D>();
-            this.Rigidbody.gravityScale = 0;
-            this.InventoryItems = new List<Item>();
-            this.Speed = 5f;
+            Rigidbody = GetComponent<Rigidbody2D>();
+            Rigidbody.gravityScale = 0;
+            InventoryItems = new List<Item>();
+            Speed = 5f;
+        }
+        
+        public int? ItemIndexInInventory(Item i)
+        {
+            foreach (var item in InventoryItems.Where(item => item.id == i.id))
+                return InventoryItems.IndexOf(item);
+            return null;
+        }
+        
+        public virtual Item GiveItem(Item i, [CanBeNull] Character other)
+        {
+            if (other != null)
+                _ = other.RemoveItem(i);
+
+            // foreach (var item in this.InventoryItems.Where(item => item.id == i.id))
+            // {
+            //     this.InventoryItems[this.InventoryItems.IndexOf(item)].quantity++;
+            //     return i;
+            // }
+
+            var index = ItemIndexInInventory(i);
+            if (index != null)
+            {
+                InventoryItems[(int)index].quantity++;
+                return i;
+            }
+
+            InventoryItems.Add(i);
+
+            return i;
         }
 
-        public virtual Item GiveItem(Item i)
+        public virtual Item RemoveItem(Item i)
         {
-            this.InventoryItems.Add(i);
+            InventoryItems.Remove(i);
             return i;
         }
 
@@ -35,7 +68,7 @@ namespace Characters
         /// <param name="valH">Horizontal Value</param>
         /// <param name="valV">Vertical Value</param>
         protected void Move(float valH, float valV) =>
-            this.Rigidbody.velocity = new Vector2(valH * this.Speed, valV * this.Speed);
+            Rigidbody.velocity = new Vector2(valH * Speed, valV * Speed);
         
 #endregion Character Movement
     }

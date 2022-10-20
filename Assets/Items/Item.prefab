@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7366467679364733042}
   - component: {fileID: 3175441952766078033}
   - component: {fileID: -4783412799133153902}
-  - component: {fileID: -6261256880750567075}
+  - component: {fileID: 419743783713368092}
   m_Layer: 0
   m_Name: Item
   m_TagString: Untagged
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &-6261256880750567075
+--- !u!114 &419743783713368092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,3 +125,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupUIPrefab: {fileID: 8353078495323390297, guid: 41d1fea8d158f31d0ac869bb7092ee3c, type: 3}
+  quantity: 1
+  id: 0
