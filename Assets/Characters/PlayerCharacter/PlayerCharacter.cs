@@ -9,17 +9,17 @@ namespace Characters.PlayerCharacter
     {
         [SerializeField]
         private GameObject inventoryUIPrefab;
-        private Inventory inventoryRef;
-        private Stopwatch InvToggleSw = new();
+        private Inventory _inventoryRef;
+        private Stopwatch _invToggleSw = new();
 
         protected new void Start()
         {
             base.Start();
 
 #region Inventory Setup
-            this.inventoryRef = this.gameObject.GetComponentInChildren<Inventory>();
-            this.inventoryRef.gameObject.SetActive(false);
-            this.InvToggleSw.Start();
+            this._inventoryRef = this.gameObject.GetComponentInChildren<Inventory>();
+            this._inventoryRef.gameObject.SetActive(false);
+            this._invToggleSw.Start();
 #endregion Inventory Setup
         }
         protected void Update()
@@ -33,17 +33,17 @@ namespace Characters.PlayerCharacter
 
         private void InventoryToggle()
         {
-            if (Input.GetKey(KeyCode.I) && this.InvToggleSw.ElapsedMilliseconds >= 500)
+            if (Input.GetKey(KeyCode.I) && this._invToggleSw.ElapsedMilliseconds >= 500)
             {
-                this.inventoryRef.gameObject.SetActive(!this.inventoryRef.gameObject.activeInHierarchy);
-                this.InvToggleSw.Restart();
+                this._inventoryRef.gameObject.SetActive(!this._inventoryRef.gameObject.activeInHierarchy);
+                this._invToggleSw.Restart();
             }
         }
 
         public override Item GiveItem(Item i)
         {
             this.InventoryItems.Add(i);
-            this.inventoryRef.InvUpdate(this.InventoryItems);
+            this._inventoryRef.InvUpdate(this.InventoryItems);
             
             return i;
         }

@@ -8,8 +8,8 @@ namespace Items.UI.PickupUI
 {
     public class ItemPickupUI : MonoBehaviour
     {
-        private Button btnYes;
-        private Button btnNo;
+        private Button _btnYes;
+        private Button _btnNo;
         [field: NonSerialized]
         public Item ItemRef { get; private set; }
         [field: NonSerialized]
@@ -27,17 +27,17 @@ namespace Items.UI.PickupUI
 
             if (buttons[0].name == "btnYes")
             {
-                btnYes = buttons[0];
-                btnNo = buttons[1];
+                _btnYes = buttons[0];
+                _btnNo = buttons[1];
             }
             else
             {
-                btnYes = buttons[1];
-                btnNo = buttons[0];
+                _btnYes = buttons[1];
+                _btnNo = buttons[0];
             }
             
-            btnNo.onClick.AddListener(() => { DestroyImmediate(this.gameObject); });
-            btnYes.onClick.AddListener(PickUp);
+            _btnNo.onClick.AddListener(() => { DestroyImmediate(this.gameObject); });
+            _btnYes.onClick.AddListener(PickUp);
         }
 
         private void PickUp()

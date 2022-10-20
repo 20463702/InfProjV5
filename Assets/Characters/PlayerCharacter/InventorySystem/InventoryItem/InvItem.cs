@@ -8,19 +8,19 @@ namespace Characters.PlayerCharacter.InventorySystem.InventoryItem
 {
     public class InvItem : MonoBehaviour
     {
-        private Item itemRef;
+        private Item _itemRef;
         
         public void Set(Item i)
         {
-            this.itemRef = i;
+            this._itemRef = i;
             
 #if UNITY_EDITOR
-            Debug.Log(this.itemRef);
+            Debug.Log(this._itemRef);
             Debug.Log(this.transform.GetChild(0).gameObject);
             Debug.Log(this.transform.GetChild(1).gameObject);
 #endif
             
-            this.transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = itemRef.name;
+            this.transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = _itemRef.name;
         }
     }
 }
