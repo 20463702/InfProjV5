@@ -1,22 +1,19 @@
 using System.Collections.Generic;
 using Characters.PlayerCharacter.InventorySystem.InventoryItem;
 using Items;
-using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Characters.PlayerCharacter.InventorySystem
+namespace Characters.Inventory
 {
-    public class Inventory : MonoBehaviour
+    public class InventorySystem : MonoBehaviour
     {
         [SerializeField]
-        private GameObject invItemPrefab;
-        private GameObject _panel;
-        private PlayerCharacter _playerRef;
+        protected GameObject invItemPrefab;
+        protected GameObject _panel;
 
         private void Start()
         {
             _panel = transform.GetChild(0).gameObject;
-            _playerRef = GameObject.Find("Player").ConvertTo<PlayerCharacter>();
         }
 
         public void InvUpdate(List<Item> invRef)
@@ -28,7 +25,7 @@ namespace Characters.PlayerCharacter.InventorySystem
             foreach (var item in invRef)
             {
                 var objRef = Instantiate(invItemPrefab, transform.GetChild(0));
-                objRef.GetComponent<InvItem>().Set(item, _playerRef);
+                objRef.GetComponent<InvItem>().Set(item);
 
                 objRef.transform.localPosition = new Vector3(0, y, 0);
                 y -= 80;

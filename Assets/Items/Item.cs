@@ -10,24 +10,24 @@ namespace Items
     {
         [SerializeField]
         private GameObject pickupUIPrefab;
-        private PlayerCharacter _playerRef;
         private float _pickupRange;
         public byte quantity = 1;
         public byte id;
 
-        protected void Start()
+        private void Start()
         {
-            _playerRef = GameObject.Find("Player").ConvertTo<PlayerCharacter>();
+            this._pickupRange = 2f;
         }
-
+        
         private void OnMouseDown()
         {
-            if (Vector3.Distance(_playerRef.transform.position, transform.position) > 2)
+            if (Vector3.Distance(PlayerCharacter.PlayerRef.transform.position, transform.position) > _pickupRange)
                 return;
         
             var gui = Instantiate(pickupUIPrefab);
             var ui = gui.GetComponent<ItemPickupUI>();
-            ui.SetRefs(this, _playerRef);
+            ui.SetRefs(this);
+            PlayerCharacter.PlayerRef.inventoryRef.InvUpdate(PlayerCharacter.PlayerRef.InventoryItems);
         }
     }
 }

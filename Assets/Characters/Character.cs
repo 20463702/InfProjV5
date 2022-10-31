@@ -20,8 +20,9 @@ namespace Characters
         {
             Rigidbody = GetComponent<Rigidbody2D>();
             Rigidbody.gravityScale = 0;
+            Rigidbody.freezeRotation = true;
             InventoryItems = new List<Item>();
-            Speed = 5f;
+            Speed = 3f;
         }
         
         public int? ItemIndexInInventory(Item i)
@@ -35,12 +36,6 @@ namespace Characters
         {
             if (other != null)
                 _ = other.RemoveItem(i);
-
-            // foreach (var item in this.InventoryItems.Where(item => item.id == i.id))
-            // {
-            //     this.InventoryItems[this.InventoryItems.IndexOf(item)].quantity++;
-            //     return i;
-            // }
 
             var index = ItemIndexInInventory(i);
             if (index != null)

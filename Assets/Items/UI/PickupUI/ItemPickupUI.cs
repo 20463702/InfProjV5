@@ -11,13 +11,9 @@ namespace Items.UI.PickupUI
         private Button _btnNo;
         [field: NonSerialized]
         public Item ItemRef { get; private set; }
-        [field: NonSerialized]
-        public PlayerCharacter PlayerRef { get; private set; }
-
-        public void SetRefs(Item itemRef, PlayerCharacter playerRef)
+        public void SetRefs(Item itemRef)
         {
             ItemRef = itemRef;
-            PlayerRef = playerRef;
         }
 
         private void Start()
@@ -33,7 +29,7 @@ namespace Items.UI.PickupUI
 
         private void PickUp()
         {
-            PlayerRef.GiveItem(ItemRef, null);
+            PlayerCharacter.PlayerRef.GiveItem(ItemRef, null);
             
             DestroyImmediate(gameObject);
 

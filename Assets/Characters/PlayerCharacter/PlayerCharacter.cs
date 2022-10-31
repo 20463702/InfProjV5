@@ -1,24 +1,26 @@
 using System.Diagnostics;
-using Characters.PlayerCharacter.InventorySystem;
+using Characters.Inventory;
 using Items;
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Characters.PlayerCharacter
 {
     public class PlayerCharacter : Character
     {
-        [FormerlySerializedAs("_inventoryRef")] [SerializeField]
-        public Inventory inventoryRef;
+        public static PlayerCharacter PlayerRef;
+        
+        [SerializeField]
+        public Inventory.InventorySystem inventoryRef;
         private Stopwatch _invToggleSw = new();
 
         protected new void Start()
         {
+            PlayerRef = this;
+            
             base.Start();
 
 #region Inventory Setup
-            inventoryRef = gameObject.GetComponentInChildren<Inventory>();
+            inventoryRef = gameObject.GetComponentInChildren<Inventory.InventorySystem>();
             inventoryRef.gameObject.SetActive(false);
             _invToggleSw.Start();
 #endregion Inventory Setup
