@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using Characters.Inventory;
+using Items.Inventory;
 using Items;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -19,7 +19,6 @@ namespace Characters.PlayerCharacter
 
 #region Inventory Setup
             Inventory = gameObject.GetComponentInChildren<PlayerInventory>();
-            Inventory.gameObject.SetActive(false);
             _invToggleSw.Start();
 #endregion Inventory Setup
         }
@@ -36,7 +35,7 @@ namespace Characters.PlayerCharacter
         {
             if (Input.GetKey(KeyCode.I) && _invToggleSw.ElapsedMilliseconds >= 500)
             {
-                Inventory.gameObject.SetActive(!Inventory.gameObject.activeInHierarchy);
+                Inventory.Panel.gameObject.SetActive(!Inventory.Panel.gameObject.activeInHierarchy);
                 _invToggleSw.Restart();
             }
         }

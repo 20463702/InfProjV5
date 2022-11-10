@@ -665,7 +665,7 @@ GameObject:
   - component: {fileID: 8353078495323390296}
   - component: {fileID: 8606767907513039431}
   m_Layer: 5
-  m_Name: ItemMenuUI
+  m_Name: PlrItemMenuUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

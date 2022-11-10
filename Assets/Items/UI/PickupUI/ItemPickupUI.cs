@@ -1,5 +1,4 @@
 using System;
-using Characters;
 using Characters.PlayerCharacter;
 using UnityEngine;
 using UnityEngine.UI;

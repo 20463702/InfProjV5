@@ -1,11 +1,12 @@
-using Items;
+using Characters;
+using Characters.PlayerCharacter;
 using TMPro;
 using UnityEngine;
 using Button = UnityEngine.UI.Button;
 
-namespace Characters.Inventory.ItemMenu
+namespace Items.Inventory.ItemMenu
 {
-    public class ItemMenu : MonoBehaviour
+    public class PlrItemMenu : MonoBehaviour
     {
         private Item _itemRef;
         private int _itemIndex;
@@ -21,7 +22,7 @@ namespace Characters.Inventory.ItemMenu
             _itemRef = iRef;
             
             // ReSharper disable once PossibleInvalidOperationException
-            _itemIndex = (int)((Character)PlayerCharacter.PlayerCharacter.PlayerRef).Inventory.IndexOfItem(_itemRef);
+            _itemIndex = (int)PlayerCharacter.PlayerRef.Inventory.IndexOfItem(_itemRef);
 
             var buttons = GetComponentsInChildren<Button>();
             buttons[0].onClick.AddListener(DiscardOne);
@@ -38,21 +39,21 @@ namespace Characters.Inventory.ItemMenu
 
         private void DiscardOne()
         {
-            if (((Character)PlayerCharacter.PlayerCharacter.PlayerRef).Inventory.Items[_itemIndex].quantity <= 1)
+            if (PlayerCharacter.PlayerRef.Inventory.Items[_itemIndex].quantity <= 1)
             {
                 DiscardAll();
                 return;
             }
 
-            ((Character)PlayerCharacter.PlayerCharacter.PlayerRef).Inventory.Items[_itemIndex].quantity--;
-            PlayerCharacter.PlayerCharacter.PlayerRef.Inventory.InvUpdate();
+            PlayerCharacter.PlayerRef.Inventory.Items[_itemIndex].quantity--;
+            PlayerCharacter.PlayerRef.Inventory.InvUpdate();
             Destroy(gameObject);
         }
 
         private void DiscardAll()
         {
-            ((Character)PlayerCharacter.PlayerCharacter.PlayerRef).Inventory.Items.RemoveAt(_itemIndex);
-            PlayerCharacter.PlayerCharacter.PlayerRef.Inventory.InvUpdate();
+            PlayerCharacter.PlayerRef.Inventory.Items.RemoveAt(_itemIndex);
+            PlayerCharacter.PlayerRef.Inventory.InvUpdate();
             Destroy(gameObject);
         }
     }

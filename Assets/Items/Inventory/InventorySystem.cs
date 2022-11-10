@@ -1,37 +1,43 @@
 using System.Collections.Generic;
 using System.Linq;
-using Characters.Inventory.InventoryItem;
-using Items;
+using Characters;
+using Characters.PlayerCharacter;
+using Items.Inventory.InventoryItem;
 using JetBrains.Annotations;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
-namespace Characters.Inventory
+namespace Items.Inventory
 {
     public class InventorySystem : MonoBehaviour
     {
         [SerializeField]
         protected GameObject invItemPrefab;
-        protected GameObject _panel;
-        [DoNotSerialize]
-        public List<Item> Items { get; protected set; }
+        [SerializeField]
+        protected GameObject itemMenuPrefab;
+        public GameObject Panel;
+        [field: SerializeField]
+        public List<Item> Items { get; protected set; } = new();
 
-        private void Start()
+        protected void Start()
         {
-            _panel = transform.GetChild(0).gameObject;
-            Items = new();
+            Panel = transform.GetChild(0).gameObject;
+            Panel.gameObject.SetActive(false);
+
+            transform.GetChild(0).GetComponentInChildren<Button>().onClick.AddListener(CloseInventory);
         }
 
         public void InvUpdate()
         {
             int y = 200;
-            for (int i = 0, n = _panel.transform.childCount; i < n; i++)
-                Destroy(_panel.transform.GetChild(i).gameObject);
-            
+            for (int i = 0, n = Panel.transform.childCount; i < n; i++)
+                if (Panel.transform.GetChild(i).GetComponent<InvItem>() != null)
+                    Destroy(Panel.transform.GetChild(i).gameObject);
+
             foreach (var item in Items)
             {
                 var objRef = Instantiate(invItemPrefab, transform.GetChild(0));
-                objRef.GetComponent<InvItem>().Set(item);
+                objRef.GetComponent<InvItem>().Set(item, itemMenuPrefab);
 
                 objRef.transform.localPosition = new Vector3(0, y, 0);
                 y -= 80;
@@ -65,6 +71,12 @@ namespace Characters.Inventory
         {
             Items.Remove(i);
             return i;
+        }
+
+        private void CloseInventory()
+        {
+            Panel.SetActive(false);
+            PlayerCharacter.PlayerRef.Inventory.Panel.SetActive(false);
         }
     }
 }

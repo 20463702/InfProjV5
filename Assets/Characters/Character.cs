@@ -1,5 +1,5 @@
 using System;
-using Characters.Inventory;
+using Items.Inventory;
 using UnityEngine;
 using Weaponry;
 

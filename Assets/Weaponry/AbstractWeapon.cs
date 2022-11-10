@@ -1,4 +1,5 @@
 using Characters;
+using Items.Inventory;
 using Items;
 
 namespace Weaponry

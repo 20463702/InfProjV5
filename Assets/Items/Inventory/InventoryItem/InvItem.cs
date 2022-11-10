@@ -1,9 +1,8 @@
-using Items;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Characters.Inventory.InventoryItem
+namespace Items.Inventory.InventoryItem
 {
     public class InvItem : MonoBehaviour
     {
@@ -12,8 +11,9 @@ namespace Characters.Inventory.InventoryItem
         [SerializeField]
         private GameObject menuPrefab;
         
-        public void Set(Item i)
+        public void Set(Item i, GameObject itemMenuPrefab)
         {
+            menuPrefab = itemMenuPrefab;
             _itemRef = i;
             _btn = GetComponent<Button>();
             _btn.onClick.AddListener(InstantiateMenu);
@@ -30,7 +30,7 @@ namespace Characters.Inventory.InventoryItem
         private void InstantiateMenu()
         {
             var menu = Instantiate(menuPrefab);
-            menu.GetComponent<ItemMenu.ItemMenu>().Set(_itemRef);
+            menu.GetComponent<ItemMenu.PlrItemMenu>().Set(_itemRef);
         }
 
     }

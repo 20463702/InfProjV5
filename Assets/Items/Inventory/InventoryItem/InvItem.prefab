@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21e3fe4feae29ac96acefb0186eab383, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuPrefab: {fileID: 8353078495323390297, guid: f3403178ab4c8d996a283bf7206a6398, type: 3}
+  menuPrefab: {fileID: 0}
 --- !u!114 &7509850045169125773
 MonoBehaviour:
   m_ObjectHideFlags: 0
