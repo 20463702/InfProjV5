@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Characters.PlayerCharacter.InventorySystem.InventoryItem
+namespace Characters.Inventory.InventoryItem
 {
     public class InvItem : MonoBehaviour
     {
