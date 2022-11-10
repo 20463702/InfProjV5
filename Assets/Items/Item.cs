@@ -16,7 +16,7 @@ namespace Items
 
         private void Start()
         {
-            this._pickupRange = 2f;
+            _pickupRange = 2f;
         }
         
         private void OnMouseDown()
@@ -27,7 +27,6 @@ namespace Items
             var gui = Instantiate(pickupUIPrefab);
             var ui = gui.GetComponent<ItemPickupUI>();
             ui.SetRefs(this);
-            PlayerCharacter.PlayerRef.inventoryRef.InvUpdate(PlayerCharacter.PlayerRef.InventoryItems);
         }
     }
 }

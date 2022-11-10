@@ -1,4 +1,5 @@
 using System;
+using Characters;
 using Characters.PlayerCharacter;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,10 +30,10 @@ namespace Items.UI.PickupUI
 
         private void PickUp()
         {
-            PlayerCharacter.PlayerRef.GiveItem(ItemRef, null);
-            
+            PlayerCharacter.PlayerRef.Inventory.AddItem(ItemRef, null);
+            PlayerCharacter.PlayerRef.Inventory.InvUpdate();
+           
             DestroyImmediate(gameObject);
-
             ItemRef.gameObject.SetActive(false);
         }
     }
