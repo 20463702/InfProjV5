@@ -3,6 +3,7 @@ using Items.Inventory.ItemMenu;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Debug = System.Diagnostics.Debug;
 
 namespace Items.Inventory.InventoryItem
 {
@@ -34,14 +35,13 @@ namespace Items.Inventory.InventoryItem
             var menu = Instantiate(menuPrefab);
             menu.GetComponent<AbstractItemMenu>().Setup(_itemRef);
 
-            //TODO Potential Optimization: Casting
             if (menu.TryGetComponent<PlrItemMenu>(out var cPlr))
                 cPlr.Setup(_itemRef);
             else if (menu.TryGetComponent<ExternalInventoryItemMenu>(out var cExt))
                 cExt.Setup(_itemRef);
             else
-                menu.GetComponent<AbstractItemMenu>().Setup(_itemRef);
-            
+                throw new Exception("ItemMenu component not found (InvItem.cs 43).");
+
             menu.transform.SetParent(transform.parent.parent);
         }
     }

@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using Characters;
 using Characters.PlayerCharacter;
 using Items.Inventory.InventoryItem;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Items.Inventory
