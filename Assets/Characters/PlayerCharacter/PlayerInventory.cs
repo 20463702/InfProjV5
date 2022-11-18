@@ -8,8 +8,8 @@ namespace Characters.PlayerCharacter
         {
             base.Start();
             
-            for (int i = 0, n = Panel.transform.childCount; i < n; i++)
-                    Destroy(Panel.transform.GetChild(i).gameObject);
+            for (int i = 0, n = panel.transform.childCount; i < n; i++)
+                    Destroy(panel.transform.GetChild(i).gameObject);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Items.UI.PickupUI
 
         private void PickUp()
         {
-            PlayerCharacter.PlayerRef.Inventory.AddItem(ItemRef, null);
+            PlayerCharacter.PlayerRef.Inventory.AddItem(ItemRef);
             PlayerCharacter.PlayerRef.Inventory.InvUpdate();
            
             DestroyImmediate(gameObject);

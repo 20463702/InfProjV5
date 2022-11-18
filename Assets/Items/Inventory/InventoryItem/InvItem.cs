@@ -1,3 +1,5 @@
+using System;
+using Items.Inventory.ItemMenu;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,8 +32,17 @@ namespace Items.Inventory.InventoryItem
         private void InstantiateMenu()
         {
             var menu = Instantiate(menuPrefab);
-            menu.GetComponent<ItemMenu.PlrItemMenu>().Set(_itemRef);
-        }
+            menu.GetComponent<AbstractItemMenu>().Setup(_itemRef);
 
+            //TODO Potential Optimization: Casting
+            if (menu.TryGetComponent<PlrItemMenu>(out var cPlr))
+                cPlr.Setup(_itemRef);
+            else if (menu.TryGetComponent<ExternalInventoryItemMenu>(out var cExt))
+                cExt.Setup(_itemRef);
+            else
+                menu.GetComponent<AbstractItemMenu>().Setup(_itemRef);
+            
+            menu.transform.SetParent(transform.parent.parent);
+        }
     }
 }

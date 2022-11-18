@@ -19,9 +19,10 @@ namespace Items.Chest
         {
             if (Vector3.Distance(PlayerCharacter.PlayerRef.transform.position, transform.position) > InteractionRange)
                 return;
-            
-            Inventory.Panel.SetActive(true);
-            PlayerCharacter.PlayerRef.Inventory.Panel.SetActive(true);
+
+            Inventory.panel.SetActive(true);
+            PlayerCharacter.PlayerRef.Inventory.panel.SetActive(true);
+            PlayerCharacter.PlayerRef.hasExternalInventoryOpen = true;
         }
     }
 }

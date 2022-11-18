@@ -11,7 +11,7 @@ namespace Characters
     {
         protected Rigidbody2D Rigidbody;
         [field: NonSerialized]
-        protected float Speed;
+        protected float Speed = 4f;
         public float Health { get; private set; }
         public InventorySystem Inventory { get; protected set; }
 
@@ -21,7 +21,6 @@ namespace Characters
             Rigidbody = GetComponent<Rigidbody2D>();
             Rigidbody.gravityScale = 0;
             Rigidbody.freezeRotation = true;
-            Speed = 3f;
         }
         
 #region Character Movement

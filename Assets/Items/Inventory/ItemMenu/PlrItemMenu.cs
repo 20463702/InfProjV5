@@ -1,59 +1,44 @@
-using Characters;
-using Characters.PlayerCharacter;
 using TMPro;
 using UnityEngine;
 using Button = UnityEngine.UI.Button;
 
+using static Characters.PlayerCharacter.PlayerCharacter;
+
 namespace Items.Inventory.ItemMenu
 {
-    public class PlrItemMenu : MonoBehaviour
+    public class PlrItemMenu : AbstractItemMenu
     {
-        private Item _itemRef;
         private int _itemIndex;
-        private TMP_Text _text;
-
-        private void Start()
-        {
-            _text = transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
-        }
         
-        public void Set(Item iRef)
+        /// <param name="iRef">Item reference</param>
+        public new void Setup(Item iRef)
         {
-            _itemRef = iRef;
-            
-            // ReSharper disable once PossibleInvalidOperationException
-            _itemIndex = (int)PlayerCharacter.PlayerRef.Inventory.IndexOfItem(_itemRef);
+            base.Setup(iRef);
+
+            _itemIndex = (int)PlayerRef.Inventory.IndexOfItem(iRef);
 
             var buttons = GetComponentsInChildren<Button>();
-            buttons[0].onClick.AddListener(DiscardOne);
-            buttons[1].onClick.AddListener(DiscardAll);
-            buttons[2].onClick.AddListener(() => { Destroy(gameObject); });
-            
-#if UNITY_EDITOR
-            transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>().text =
-                $"{_itemRef.name} ({_itemRef.quantity}) [{_itemRef.id}]";
-#else
-            _text.text = $"{_itemRef.name} ({_itemRef.quantity})";
-#endif
+            buttons[1].onClick.AddListener(DiscardOne);
+            buttons[2].onClick.AddListener(DiscardAll);
         }
 
         private void DiscardOne()
         {
-            if (PlayerCharacter.PlayerRef.Inventory.Items[_itemIndex].quantity <= 1)
+            if (PlayerRef.Inventory.Items[_itemIndex].quantity <= 1)
             {
                 DiscardAll();
                 return;
             }
 
-            PlayerCharacter.PlayerRef.Inventory.Items[_itemIndex].quantity--;
-            PlayerCharacter.PlayerRef.Inventory.InvUpdate();
+            PlayerRef.Inventory.Items[_itemIndex].quantity--;
+            PlayerRef.Inventory.InvUpdate();
             Destroy(gameObject);
         }
 
         private void DiscardAll()
         {
-            PlayerCharacter.PlayerRef.Inventory.Items.RemoveAt(_itemIndex);
-            PlayerCharacter.PlayerRef.Inventory.InvUpdate();
+            PlayerRef.Inventory.Items.RemoveAt(_itemIndex);
+            PlayerRef.Inventory.InvUpdate();
             Destroy(gameObject);
         }
     }

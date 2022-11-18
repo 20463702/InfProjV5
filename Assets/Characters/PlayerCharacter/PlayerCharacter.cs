@@ -1,15 +1,16 @@
 using System.Diagnostics;
-using Items.Inventory;
-using Items;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Characters.PlayerCharacter
 {
     public class PlayerCharacter : Character
     {
+        /// <summary>
+        ///     Global player ref.
+        /// </summary>
         public static PlayerCharacter PlayerRef;
-        private Stopwatch _invToggleSw = new();
+        private readonly Stopwatch _invToggleSw = new();
+        public bool hasExternalInventoryOpen;
 
         protected new void Start()
         {
@@ -17,14 +18,13 @@ namespace Characters.PlayerCharacter
             
             base.Start();
 
-#region Inventory Setup
             Inventory = gameObject.GetComponentInChildren<PlayerInventory>();
             _invToggleSw.Start();
-#endregion Inventory Setup
         }
         protected void Update()
         {
             Movement();
+            Sprint();
             InventoryToggle();
         }
 
@@ -33,11 +33,13 @@ namespace Characters.PlayerCharacter
 
         private void InventoryToggle()
         {
-            if (Input.GetKey(KeyCode.I) && _invToggleSw.ElapsedMilliseconds >= 500)
-            {
-                Inventory.Panel.gameObject.SetActive(!Inventory.Panel.gameObject.activeInHierarchy);
-                _invToggleSw.Restart();
-            }
+            if (hasExternalInventoryOpen || !Input.GetKey(KeyCode.I) || _invToggleSw.ElapsedMilliseconds < 300) return;
+            
+            Inventory.panel.gameObject.SetActive(!Inventory.panel.gameObject.activeInHierarchy);
+            _invToggleSw.Restart();
+            hasExternalInventoryOpen = false;
         }
+
+        private void Sprint() => Speed = Input.GetKey(KeyCode.LeftShift) ? 6.5f : 4f;
     }
 }
