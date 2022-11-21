@@ -21,8 +21,6 @@ namespace Characters.PlayerCharacter
 
             base.Start(); //alle toekomstige zooi na dit zetten anders daantje de niet-neger (maar wel faggot) boos
 
-            Inventory = gameObject.GetComponentInChildren<PlayerInventory>();
-
             InitHealth();
             
             //! delete dit
@@ -35,10 +33,7 @@ namespace Characters.PlayerCharacter
             
             Movement();
             Sprint();
-            InventoryToggle();
             UpdateHealthBar();
-            if (health <= 0f)
-                Respawn();
             if (Input.GetMouseButton(0))
                 Attack<Enemy.Enemy>();
         }
@@ -56,12 +51,6 @@ namespace Characters.PlayerCharacter
         private void UpdateHealthBar()
         {
             healthBar.fillAmount = Mathf.Clamp(health / MaxHealth, 0, 1);
-        }
-
-        private void Respawn()
-        {
-            transform.position = respawn.position;
-            health = MaxHealth;
         }
     }
 }
