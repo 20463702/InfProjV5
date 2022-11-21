@@ -1,4 +1,3 @@
-using System;
 using Items.Inventory;
 using UnityEngine;
 using Weaponry;
@@ -6,18 +5,15 @@ using Weaponry;
 namespace Characters
 {
     
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(InventoryContainer))]
     public class Character : MonoBehaviour
     {
         protected Rigidbody2D Rigidbody;
-        [field: NonSerialized]
         protected float Speed = 4f;
         public float Health { get; private set; }
-        public InventorySystem Inventory { get; protected set; }
 
         protected void Start()
         {
-            Inventory = gameObject.GetComponentInChildren<InventorySystem>();
             Rigidbody = GetComponent<Rigidbody2D>();
             Rigidbody.gravityScale = 0;
             Rigidbody.freezeRotation = true;
