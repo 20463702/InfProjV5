@@ -1,7 +1,5 @@
-using System;
 using Items.Inventory;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Items
 {
