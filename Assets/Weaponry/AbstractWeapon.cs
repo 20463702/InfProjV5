@@ -1,6 +1,4 @@
 using Characters;
-using Items.Inventory;
-using Items;
 using UnityEngine;
 
 namespace Weaponry

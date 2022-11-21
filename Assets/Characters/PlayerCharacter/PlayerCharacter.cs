@@ -1,4 +1,3 @@
-using Characters.Enemy1;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -16,7 +15,6 @@ namespace Characters.PlayerCharacter
         
         public bool hasExternalInventoryOpen;
         [SerializeField] private Image healthBar;
-
         protected new void Start()
         {
             PlayerRef = this;
@@ -42,19 +40,11 @@ namespace Characters.PlayerCharacter
             if (health <= 0f)
                 Respawn();
             if (Input.GetMouseButton(0))
-                Attack<Enemy>();
+                Attack<Enemy.Enemy>();
         }
 
         protected override void Movement() =>
             Move(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-
-        private void InventoryToggle()
-        {
-            if (hasExternalInventoryOpen || !Input.GetKey(KeyCode.I)) return;
-
-            Inventory.panel.gameObject.SetActive(!Inventory.panel.gameObject.activeInHierarchy);
-            hasExternalInventoryOpen = false;
-        }
 
         private void Sprint() => Speed = Input.GetKey(KeyCode.LeftShift) ? 6.5f : 4f;
 
@@ -73,20 +63,5 @@ namespace Characters.PlayerCharacter
             transform.position = respawn.position;
             health = MaxHealth;
         }
-
-        // protected override void Attack()
-        // {
-        //     if (Weapon.DeltaTimeBetweenAttacks <= 0)
-        //     {
-        //         var colliders = Physics2D.OverlapCircleAll(transform.position, Weapon.Range);
-        //         for (int i = 0, n = colliders.Length; i < n; i++)
-        //         {
-        //             if (colliders[i].TryGetComponent<Enemy>(out var c) 
-        //                 && Vector3.Distance(transform.position, colliders[i].transform.position) <= Weapon.Range)
-        //                 c.TakeDamage(Weapon);
-        //         }
-        //         Weapon.ResetDeltaTime();
-        //     }
-        // }
     }
 }

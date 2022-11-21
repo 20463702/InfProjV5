@@ -1,6 +1,5 @@
 using System;
 using Characters;
-using Characters.Enemy1;
 using Characters.PlayerCharacter;
 using UnityEngine;
 using UnityEngine.UIElements;

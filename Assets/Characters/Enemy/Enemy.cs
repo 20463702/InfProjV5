@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using Weaponry.Melee;
 
-namespace Characters.Enemy1
+namespace Characters.Enemy
 {
     public class Enemy : Character
     {
