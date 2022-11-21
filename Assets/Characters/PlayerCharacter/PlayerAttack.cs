@@ -68,7 +68,7 @@ public class PlayerAttack : MonoBehaviour
         if (_bowCharge > maxBowCharge) _bowCharge = maxBowCharge;
 
         float arrowSpeed = _bowCharge + bowPower;
-        float angle = Utility.AngleTowardsMouse(bow.position);
+        float angle = RangedCombatUtility.AngleTowardsMouse(bow.position);
         Quaternion rot = Quaternion.Euler(new Vector3(0f, 0f, angle - 90f));
 
         Arrow arrow = Instantiate(arrowPrefab, bow.position, rot).GetComponent<Arrow>();

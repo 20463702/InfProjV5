@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Weaponry.Ranged
 {
-    public static class Utility 
+    public static class RangedCombatUtility 
     {
         public static float AngleTowardsMouse(Vector3 pos)
         {

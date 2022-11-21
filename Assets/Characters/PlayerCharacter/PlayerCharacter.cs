@@ -47,7 +47,7 @@ namespace Characters.PlayerCharacter
 
         private void RotateHand()
         {
-            float angle = Utility.AngleTowardsMouse(_hand.position);
+            float angle = RangedCombatUtility.AngleTowardsMouse(_hand.position);
             _hand.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
         }
     }
