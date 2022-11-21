@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using UnityEngine;
+using Weaponry.Ranged;
 
 namespace Characters.PlayerCharacter
 {
@@ -11,7 +12,8 @@ namespace Characters.PlayerCharacter
         public static PlayerCharacter PlayerRef;
         private readonly Stopwatch _invToggleSw = new();
         public bool hasExternalInventoryOpen;
-
+        [SerializeField] private Transform _hand;
+        
         protected new void Start()
         {
             PlayerRef = this;
@@ -26,6 +28,7 @@ namespace Characters.PlayerCharacter
             Movement();
             Sprint();
             InventoryToggle();
+            RotateHand();
         }
 
         protected override void Movement() =>
@@ -41,5 +44,11 @@ namespace Characters.PlayerCharacter
         }
 
         private void Sprint() => Speed = Input.GetKey(KeyCode.LeftShift) ? 6.5f : 4f;
+
+        private void RotateHand()
+        {
+            float angle = Utility.AngleTowardsMouse(_hand.position);
+            _hand.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
+        }
     }
 }
