@@ -1,3 +1,4 @@
+using Items.ItemData;
 using UnityEngine;
 
 namespace Items.Inventory

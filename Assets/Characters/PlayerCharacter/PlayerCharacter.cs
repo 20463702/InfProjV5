@@ -5,14 +5,13 @@ namespace Characters.PlayerCharacter
 {
     public class PlayerCharacter : Character
     {
-        /// <summary>
-        ///     Global player ref.
-        /// </summary>
-        public static PlayerCharacter PlayerRef;
+        /// <summary>Global player ref</summary>
+        public static GameObject PlayerRef;
+        
 
         protected new void Start()
         {
-            PlayerRef = this;
+            PlayerRef = gameObject;
             
             base.Start();
 
