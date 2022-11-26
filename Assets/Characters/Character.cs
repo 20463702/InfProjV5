@@ -1,6 +1,8 @@
 using System;
 using Items.Inventory;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 using Weaponry;
 
 namespace Characters
@@ -12,15 +14,17 @@ namespace Characters
         protected Rigidbody2D Rigidbody;
         [field: NonSerialized]
         protected float Speed = 4f;
-        public float Health { get; private set; }
-        public InventorySystem Inventory { get; protected set; }
 
+        public float health;
+        public InventorySystem Inventory { get; protected set; }
+        protected float MaxHealth;
         protected void Start()
         {
             Inventory = gameObject.GetComponentInChildren<InventorySystem>();
             Rigidbody = GetComponent<Rigidbody2D>();
             Rigidbody.gravityScale = 0;
             Rigidbody.freezeRotation = true;
+            MaxHealth = health;
         }
         
 #region Character Movement
@@ -35,6 +39,6 @@ namespace Characters
 #endregion Character Movement
 
         public void TakeDamage(AbstractWeapon w) =>
-            Health -= w.Damage;
+            health -= w.Damage;
     }
 }

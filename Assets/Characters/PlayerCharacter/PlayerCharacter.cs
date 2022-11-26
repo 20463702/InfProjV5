@@ -1,5 +1,7 @@
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Characters.PlayerCharacter
 {
@@ -11,21 +13,25 @@ namespace Characters.PlayerCharacter
         public static PlayerCharacter PlayerRef;
         private readonly Stopwatch _invToggleSw = new();
         public bool hasExternalInventoryOpen;
-
+        [SerializeField] private Image healthBar;
+        
         protected new void Start()
         {
             PlayerRef = this;
             
-            base.Start();
+            base.Start(); //alle toekomstige zooi na dit zetten anders daantje boos
 
             Inventory = gameObject.GetComponentInChildren<PlayerInventory>();
             _invToggleSw.Start();
+            
+            InitHealth();
         }
         protected void Update()
         {
             Movement();
             Sprint();
             InventoryToggle();
+            UpdateHealthBar();
         }
 
         protected override void Movement() =>
@@ -41,5 +47,16 @@ namespace Characters.PlayerCharacter
         }
 
         private void Sprint() => Speed = Input.GetKey(KeyCode.LeftShift) ? 6.5f : 4f;
+
+        private void InitHealth()
+        {
+            MaxHealth = health;
+        }
+
+        private void UpdateHealthBar()
+        {
+            healthBar.fillAmount = Mathf.Clamp(health / MaxHealth, 0, 1);
+        }
+
     }
 }
