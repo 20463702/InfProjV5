@@ -79,8 +79,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0.9635534, a: 1}
+  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  m_Color: {r: 1, g: 0, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -149,7 +149,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1dca556de9332c9697f9e35f7ed0e25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryRef: {fileID: 0}
+  health: 0
+  hasExternalInventoryOpen: 0
+  healthBar: {fileID: 0}
+  player: {fileID: 0}
+  respawn: {fileID: 0}
 --- !u!20 &8706147885568216478
 Camera:
   m_ObjectHideFlags: 0
@@ -392,6 +396,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invItemPrefab: {fileID: 5871664388107466023, guid: 9c3cdb7d46dd77310995abcf2c71f516, type: 3}
+  itemMenuPrefab: {fileID: 0}
+  panel: {fileID: 0}
+  <Items>k__BackingField: []
 --- !u!224 &6673241419009094127 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4208294350218103965, guid: 1d5c0cffccb73612c9df8c26334c9eb8, type: 3}

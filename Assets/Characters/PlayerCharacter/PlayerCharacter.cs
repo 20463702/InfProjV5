@@ -1,7 +1,10 @@
+using System;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Weaponry;
+using Debug = System.Diagnostics.Debug;
 
 namespace Characters.PlayerCharacter
 {
@@ -11,27 +14,40 @@ namespace Characters.PlayerCharacter
         ///     Global player ref.
         /// </summary>
         public static PlayerCharacter PlayerRef;
+
         private readonly Stopwatch _invToggleSw = new();
         public bool hasExternalInventoryOpen;
         [SerializeField] private Image healthBar;
-        
+
+        public GameObject player;
+        public Transform respawn;
+        public Transform attackPoint;
+        public float attackRange = 0.5f;
+        public LayerMask enemyLayers;
+        public int attackDamage = 40;
+
         protected new void Start()
         {
             PlayerRef = this;
-            
-            base.Start(); //alle toekomstige zooi na dit zetten anders daantje boos
+
+            base.Start(); //alle toekomstige zooi na dit zetten anders daantje bo os
 
             Inventory = gameObject.GetComponentInChildren<PlayerInventory>();
             _invToggleSw.Start();
-            
+
             InitHealth();
         }
+
         protected void Update()
         {
             Movement();
             Sprint();
             InventoryToggle();
             UpdateHealthBar();
+            if (health <= 0f)
+                Respawn();
+            if (Input.GetKeyDown(KeyCode.Space))
+                MeleeAttack();
         }
 
         protected override void Movement() =>
@@ -40,7 +56,7 @@ namespace Characters.PlayerCharacter
         private void InventoryToggle()
         {
             if (hasExternalInventoryOpen || !Input.GetKey(KeyCode.I) || _invToggleSw.ElapsedMilliseconds < 300) return;
-            
+
             Inventory.panel.gameObject.SetActive(!Inventory.panel.gameObject.activeInHierarchy);
             _invToggleSw.Restart();
             hasExternalInventoryOpen = false;
@@ -58,5 +74,27 @@ namespace Characters.PlayerCharacter
             healthBar.fillAmount = Mathf.Clamp(health / MaxHealth, 0, 1);
         }
 
+        private void Respawn()
+        {
+            player.transform.position = respawn.position;
+            health = MaxHealth;
+        }
+
+        void MeleeAttack()
+        {
+            Collider2D [] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                enemy.GetComponent<Enemy>().Damage(attackDamage);   
+            }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            if (attackPoint == null)
+                return;
+            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        }
     }
 }
