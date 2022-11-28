@@ -16,7 +16,7 @@ namespace Items.Inventory
         /// <param name="s">size</param>
         public InventorySystem(int s)
         {
-            Slots = new(s);
+            Slots = new();
             for (int i = 0; i < s; i++)
                 Slots.Add(new InventorySlot());
         }

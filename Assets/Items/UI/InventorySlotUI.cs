@@ -1,6 +1,7 @@
 using Items.Inventory;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Items.UI
@@ -9,7 +10,7 @@ namespace Items.UI
     {
         private Image _itemSprite;
         private TextMeshProUGUI _itemCount;
-        private InventorySlot _assignedSlot;
+        public InventorySlot AssignedSlot { get; private set; }
         [SerializeField] //! DEBUG
         // ReSharper disable once InconsistentNaming
         private Button _button;
@@ -17,7 +18,7 @@ namespace Items.UI
 
         private void Awake()
         {
-            _itemSprite = GetComponentInChildren<Image>();
+            _itemSprite = transform.GetChild(0).gameObject.GetComponent<Image>();
             _itemCount = GetComponentInChildren<TextMeshProUGUI>();
             _button = GetComponent<Button>();
             ParentDisplay = transform.parent.GetComponent<InventoryDisplay>();
@@ -29,13 +30,13 @@ namespace Items.UI
         /// <param name="s">Assigned inventory slot</param>
         public void Init(InventorySlot s)
         {
-            _assignedSlot = s;
+            AssignedSlot = s;
             UpdateUISlot(s);
         }
 
         public void ClearSlot()
         {
-            _assignedSlot?.ClearSlot();
+            AssignedSlot?.ClearSlot();
             _itemSprite.sprite = null;
             _itemSprite.color = Color.clear;
             _itemCount.text = string.Empty;
@@ -47,7 +48,11 @@ namespace Items.UI
             {
                 _itemSprite.sprite = s.ItemData.icon;
                 _itemSprite.color = Color.white;
+#if UNITY_EDITOR
+                _itemCount.text = $"[{s.ItemData.id}] {s.StackSize}";
+#else
                 _itemCount.text = s.StackSize > 1 ? s.StackSize.ToString() : string.Empty;
+#endif
             }
             else
                 ClearSlot();
@@ -55,13 +60,13 @@ namespace Items.UI
 
         public void UpdateUISlot()
         {
-            if (_assignedSlot != null)
-                UpdateUISlot(_assignedSlot);
+            if (AssignedSlot != null)
+                UpdateUISlot(AssignedSlot);
         }
         
         private void OnUISlotClick()
         {
-            ParentDisplay.SlotClicked(this);            
+            ParentDisplay.SlotClicked(this);
         }
     }
 }
