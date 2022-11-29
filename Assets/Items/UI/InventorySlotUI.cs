@@ -66,6 +66,9 @@ namespace Items.UI
         
         private void OnUISlotClick()
         {
+#if UNITY_EDITOR
+            Debug.Log(this);
+#endif
             ParentDisplay.SlotClicked(this);
         }
     }

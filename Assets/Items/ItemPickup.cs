@@ -22,7 +22,7 @@ namespace Items
             var inventory = c.transform.GetComponent<InventoryContainer>();
             if (!inventory) return;
 
-            if (inventory.Inventory.AddToInventory(itemData))
+            if (inventory.InvSys.AddToInventory(itemData))
                 Destroy(gameObject);
         }
     }

@@ -15,12 +15,8 @@ namespace Items.UI
         {
             base.Start();
 
-            InvSystem = inventoryContainer.Inventory;
+            InvSystem = inventoryContainer.InvSys;
             InvSystem.OnInventorySlotChange += UpdateSlot;
-            
-#if UNITY_EDITOR
-            Debug.Log(InvSystem);
-#endif
             
             AssignSlot(InvSystem);
         }
