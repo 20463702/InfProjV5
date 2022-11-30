@@ -1,10 +1,10 @@
 using System;
-using System.Diagnostics;
+using Characters.Enemy1;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Weaponry;
-using Debug = System.Diagnostics.Debug;
+using Weaponry.Melee;
 
 namespace Characters.PlayerCharacter
 {
@@ -14,28 +14,29 @@ namespace Characters.PlayerCharacter
         ///     Global player ref.
         /// </summary>
         public static PlayerCharacter PlayerRef;
-
-        private readonly Stopwatch _invToggleSw = new();
+        
         public bool hasExternalInventoryOpen;
         [SerializeField] private Image healthBar;
-
-        public GameObject player;
-        public Transform respawn;
-        public Transform attackPoint;
-        public float attackRange = 0.5f;
-        public LayerMask enemyLayers;
-        public int attackDamage = 40;
+        [SerializeField] private Transform attackPoint;
+        private float _attackRange = 0.5f;
+        [SerializeField] private LayerMask enemyLayers;
+        private int _attackDamage = 40;
+        private float _timeBetweenAttack;
+        private float _startTimeBetweenAttack;
+        public AbstractWeapon weapon;
 
         protected new void Start()
         {
             PlayerRef = this;
 
-            base.Start(); //alle toekomstige zooi na dit zetten anders daantje bo os
+            base.Start(); //alle toekomstige zooi na dit zetten anders daantje de niet-neger bo os
 
             Inventory = gameObject.GetComponentInChildren<PlayerInventory>();
-            _invToggleSw.Start();
 
             InitHealth();
+            
+            //! delete dit
+            weapon = new MeleeWeapon(69f, 42069f);
         }
 
         protected void Update()
@@ -46,7 +47,7 @@ namespace Characters.PlayerCharacter
             UpdateHealthBar();
             if (health <= 0f)
                 Respawn();
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetMouseButton(0))
                 MeleeAttack();
         }
 
@@ -55,10 +56,9 @@ namespace Characters.PlayerCharacter
 
         private void InventoryToggle()
         {
-            if (hasExternalInventoryOpen || !Input.GetKey(KeyCode.I) || _invToggleSw.ElapsedMilliseconds < 300) return;
+            if (hasExternalInventoryOpen || !Input.GetKey(KeyCode.I)) return;
 
             Inventory.panel.gameObject.SetActive(!Inventory.panel.gameObject.activeInHierarchy);
-            _invToggleSw.Restart();
             hasExternalInventoryOpen = false;
         }
 
@@ -76,25 +76,31 @@ namespace Characters.PlayerCharacter
 
         private void Respawn()
         {
-            player.transform.position = respawn.position;
+            transform.position = respawn.position;
             health = MaxHealth;
         }
 
-        void MeleeAttack()
+        private void MeleeAttack()
         {
-            Collider2D [] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
-
-            foreach (Collider2D enemy in hitEnemies)
-            {
-                enemy.GetComponent<Enemy>().Damage(attackDamage);   
+            if (_timeBetweenAttack <= 0)
+            { // dan val je aan
+                if (Input.GetMouseButton(0))
+                {
+                    // Common Job LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
+                    var enemiesToDamage = Physics2D.OverlapCircleAll(transform.position, weapon.Range, Enemy.Layer);
+                    Debug.Log(enemiesToDamage.Length);
+                    for (int i = 0, n = enemiesToDamage.Length; i < n; i++)
+                    {
+                        Debug.Log(enemiesToDamage[i]);
+                        enemiesToDamage[i].GetComponent<Enemy>().TakeDamage(weapon);
+                    }
+                }
+                _timeBetweenAttack = _startTimeBetweenAttack;
             }
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            if (attackPoint == null)
-                return;
-            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+            else
+            {
+                _timeBetweenAttack -= Time.deltaTime; 
+            }
         }
     }
 }

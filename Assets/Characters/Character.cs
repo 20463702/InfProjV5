@@ -12,8 +12,8 @@ namespace Characters
     public class Character : MonoBehaviour
     {
         protected Rigidbody2D Rigidbody;
-        [field: NonSerialized]
-        protected float Speed = 4f;
+        [SerializeField] protected Transform respawn;
+        [field: NonSerialized] protected float Speed = 4f;
 
         public float health;
         public InventorySystem Inventory { get; protected set; }
@@ -38,7 +38,19 @@ namespace Characters
         
 #endregion Character Movement
 
-        public void TakeDamage(AbstractWeapon w) =>
+        public void TakeDamage(AbstractWeapon w)
+        {
             health -= w.Damage;
+#if UNITY_EDITOR
+            Debug.Log(health);
+#endif
+            if (health <= 0f)
+                Die();
+        } 
+        void Die()
+        {
+            transform.position = respawn.position;  
+            health = MaxHealth;
+        }
     }
 }
