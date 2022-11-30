@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using Characters.Enemy1;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -24,13 +25,13 @@ namespace Characters.PlayerCharacter
         public Transform attackPoint;
         public float attackRange = 0.5f;
         public LayerMask enemyLayers;
-        public int attackDamage = 40;
+        public int attackDamage = 20;
 
         protected new void Start()
         {
             PlayerRef = this;
 
-            base.Start(); //alle toekomstige zooi na dit zetten anders daantje bo os
+            base.Start(); //alle toekomstige zooi na dit zetten anders daantje boos
 
             Inventory = gameObject.GetComponentInChildren<PlayerInventory>();
             _invToggleSw.Start();
@@ -46,7 +47,7 @@ namespace Characters.PlayerCharacter
             UpdateHealthBar();
             if (health <= 0f)
                 Respawn();
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Mouse0))
                 MeleeAttack();
         }
 

@@ -1,46 +1,50 @@
 using System;
-using  System.Collections;
-using System.Collections.Generic;
-using Characters;
-using Characters.PlayerCharacter;
 using UnityEngine;
 
-public class Enemy : Character
+namespace Characters.Enemy1
 {
-    public float damage;
-    public PlayerHealth pHealth;
-    public GameObject enemy1;
-    public Transform respawn;
-
-    private new void Start()
+    public class Enemy : Character
     {
-        MaxHealth = health;
-    }
+        public float damage;
+        public GameObject enemy1;
+        public Transform respawn;
+        private Vector2 _movement;
+        public float speed;
+        private Transform _target;
+
+        private new void Start()
+        {
+            MaxHealth = health;
+            _target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        }
+
+        private void Update()
+        {
+            transform.position = Vector2.MoveTowards(transform.position, _target.position, speed * Time.deltaTime);
+            transform.position = new Vector3(transform.position.x, transform.position.y, -2);
+        }
+
+        private void OnCollisionEnter2D(Collision2D col)
+        {
+            col.collider.gameObject.TryGetComponent(out Character c);
+            c.health -= damage;
+        }
     
-    // void OnCollisionEnter2D(Collision2D other)
-    // {
-    //     if (other.gameObject.CompareTag("Player"))
-    //     {
-    //        pHealth.health -= damage;
-    //     }
-    // }
-    private void OnCollisionEnter2D(Collision2D col)
-    {
-        col.collider.gameObject.TryGetComponent(out Character c);
-        c.health -= damage;
-    }
+        /// <param name="attackDamage"></param>
+        public void Damage(int attackDamage)
+        {
+            health -= damage;
 
-    public void Damage(int attackDamage)
-    {
-        health -= damage;
+            if (health <= 0f)
+                Die();
+        }
 
-        if (health <= 0f)
-            Die();
-    }
-
-    void Die()
-    {
-        enemy1.transform.position = respawn.position;  
-        health = MaxHealth;
+        private void Die()
+        {
+            enemy1.transform.position = respawn.position;  
+            health = MaxHealth;
+        }
+        
+        
     }
 }
