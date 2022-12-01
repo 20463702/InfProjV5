@@ -9,7 +9,6 @@ namespace Characters.Enemy1
         public static LayerMask Layer;
         public float damage;
         private Vector2 _movement;
-        private Transform _target;
 
         protected void Start()
         {
@@ -18,11 +17,19 @@ namespace Characters.Enemy1
             MaxHealth = health;
             Speed = Speed == 0f ? 4.0f : Speed;
         }
+
         
         private void Update()
         {
-            transform.position = Vector2.MoveTowards(transform.position, _target.position, Speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, 
+                PlayerCharacter.PlayerCharacter.PlayerRef.transform.position, 
+                Speed * Time.deltaTime);
             transform.position = new Vector3(transform.position.x, transform.position.y, -2);
+            
+#if UNITY_EDITOR
+            if (health != 100f)
+                Debug.Log($"{health}    {MaxHealth}");
+#endif
         }
 
         private void OnCollisionEnter2D(Collision2D col)

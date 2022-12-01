@@ -14,6 +14,7 @@ namespace Characters
         protected Rigidbody2D Rigidbody;
         [SerializeField] protected Transform respawn;
         [field: NonSerialized] protected float Speed = 4f;
+        public AbstractWeapon Weapon;
 
         public float health;
         public InventorySystem Inventory { get; protected set; }
@@ -26,8 +27,13 @@ namespace Characters
             Rigidbody.freezeRotation = true;
             MaxHealth = health;
         }
-        
-#region Character Movement
+
+        protected void Update()
+        {
+            Weapon.UpdateDeltaTime();
+        }
+
+        #region Character Movement
 
         protected virtual void Movement() { }
 
@@ -38,14 +44,21 @@ namespace Characters
         
 #endregion Character Movement
 
+        protected virtual void Attack()
+        {
+            if (Weapon.DeltaTimeBetweenAttacks > 0)
+            {
+                Weapon.UpdateDeltaTime();
+                return;
+            }
+        }
+
         public void TakeDamage(AbstractWeapon w)
         {
             health -= w.Damage;
-#if UNITY_EDITOR
-            Debug.Log(health);
-#endif
             if (health <= 0f)
                 Die();
+            Debug.Log(health);
         } 
         void Die()
         {

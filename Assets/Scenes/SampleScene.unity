@@ -5032,17 +5032,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe9bae0dd716ae54f9db0c51ad05170b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< HEAD
   respawn: {fileID: 516011705}
   health: 100
   damage: 20
-=======
-  health: 60
-  damage: 20
-  enemy1: {fileID: 1624969376}
-  respawn: {fileID: 687505295}
-  speed: 2
->>>>>>> c4350e85310fc02728cb76fbd1429ebf0622afa6
 --- !u!61 &1624969378
 BoxCollider2D:
   m_ObjectHideFlags: 0

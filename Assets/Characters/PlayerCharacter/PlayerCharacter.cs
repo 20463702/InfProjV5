@@ -17,13 +17,6 @@ namespace Characters.PlayerCharacter
         
         public bool hasExternalInventoryOpen;
         [SerializeField] private Image healthBar;
-        [SerializeField] private Transform attackPoint;
-        private float _attackRange = 0.5f;
-        [SerializeField] private LayerMask enemyLayers;
-        private int _attackDamage = 40;
-        private float _timeBetweenAttack;
-        private float _startTimeBetweenAttack;
-        public AbstractWeapon weapon;
 
         protected new void Start()
         {
@@ -36,11 +29,13 @@ namespace Characters.PlayerCharacter
             InitHealth();
             
             //! delete dit
-            weapon = new MeleeWeapon(69f, 42069f);
+            Weapon = new MeleeWeapon(40f, 2f, 1f);
         }
 
         protected void Update()
         {
+            base.Update();
+            
             Movement();
             Sprint();
             InventoryToggle();
@@ -48,7 +43,7 @@ namespace Characters.PlayerCharacter
             if (health <= 0f)
                 Respawn();
             if (Input.GetMouseButton(0))
-                MeleeAttack();
+                Attack();
         }
 
         protected override void Movement() =>
@@ -80,26 +75,22 @@ namespace Characters.PlayerCharacter
             health = MaxHealth;
         }
 
-        private void MeleeAttack()
+        protected override void Attack()
         {
-            if (_timeBetweenAttack <= 0)
-            { // dan val je aan
+            Debug.Log(Weapon.DeltaTimeBetweenAttacks);
+            if (Weapon.DeltaTimeBetweenAttacks <= 0)
+            {
                 if (Input.GetMouseButton(0))
                 {
-                    // Common Job LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
-                    var enemiesToDamage = Physics2D.OverlapCircleAll(transform.position, weapon.Range, Enemy.Layer);
-                    Debug.Log(enemiesToDamage.Length);
-                    for (int i = 0, n = enemiesToDamage.Length; i < n; i++)
+                    var colliders = Physics2D.OverlapCircleAll(transform.position, Weapon.Range);
+                    for (int i = 0, n = colliders.Length; i < n; i++)
                     {
-                        Debug.Log(enemiesToDamage[i]);
-                        enemiesToDamage[i].GetComponent<Enemy>().TakeDamage(weapon);
+                        if (colliders[i].TryGetComponent<Enemy>(out var c) 
+                            && Vector3.Distance(transform.position, colliders[i].transform.position) <= Weapon.Range)
+                            c.TakeDamage(Weapon);
                     }
+                    Weapon.ResetDeltaTime();
                 }
-                _timeBetweenAttack = _startTimeBetweenAttack;
-            }
-            else
-            {
-                _timeBetweenAttack -= Time.deltaTime; 
             }
         }
     }
