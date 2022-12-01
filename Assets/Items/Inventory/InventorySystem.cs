@@ -1,93 +1,63 @@
 using System.Collections.Generic;
 using System.Linq;
-using Characters.PlayerCharacter;
-using Items.Inventory.InventoryItem;
-using JetBrains.Annotations;
+using Items.ItemData;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Events;
 
 namespace Items.Inventory
 {
-    public class InventorySystem : MonoBehaviour
+    [System.Serializable]
+    public class InventorySystem
     {
-        [field: SerializeField]
-        protected GameObject invItemPrefab;
-        [field: SerializeField]
-        protected GameObject itemMenuPrefab;
-        public GameObject panel;
-        [field: SerializeField]
-        public List<Item> Items { get; protected set; } = new();
+        [field: SerializeField] public List<InventorySlot> Slots { get; private set; }
+        public int InventorySize => Slots.Count;
+        public UnityAction<InventorySlot> OnInventorySlotChange;
 
-        protected void Start()
+        /// <param name="s">size</param>
+        public InventorySystem(int s)
         {
-            panel = transform.GetChild(0).gameObject;
-            panel.gameObject.SetActive(false);
-
-            transform.GetChild(0).GetComponentInChildren<Button>().onClick.AddListener(CloseInventory);
-
-            InvUpdate();
+            Slots = new();
+            for (int i = 0; i < s; i++)
+                Slots.Add(new InventorySlot());
         }
 
-        public void InvUpdate()
+        /// <param name="i">item</param>
+        /// <param name="a">amount</param>
+        /// <returns>success?</returns>
+        public bool AddToInventory(InventoryItemData i, int a = 1)
         {
-            var y = 200;
-            for (int i = 0, n = panel.transform.childCount; i < n; i++)
-                if (panel.transform.GetChild(i).GetComponent<InvItem>() != null)
-                    Destroy(panel.transform.GetChild(i).gameObject);
-
-            foreach (var item in Items)
+            if (ContainsItem(i, out var invSlots)) //? Does item exist?
             {
-                var objRef = Instantiate(invItemPrefab, transform.GetChild(0));
-                objRef.GetComponent<InvItem>().Set(item, itemMenuPrefab);
-                objRef.transform.localPosition = new Vector3(0, y, 0);
-                y -= 80;
+                foreach (var s in invSlots)
+                {
+                    if (s.RoomInStack(a, out _))
+                    {
+                        s.AddToStack(a);
+                        OnInventorySlotChange?.Invoke(s);
+                        return true;
+                    }
+                }
             }
-        }
-        
-        /// <param name="i">Item</param>
-        /// <returns>Index of the item or null if not in inventory.</returns>
-        public int? IndexOfItem(Item i)
-        {
-            foreach (var item in Items.Where(item => item.id == i.id))
-                return Items.IndexOf(item);
-            return null;
-        }
-
-        /// <param name="i">Item to be added</param>
-        /// <param name="o">NULLABLE 'Other': Character the item comes from
-        ///     (item will be removed from this character's inventory).</param>
-        /// <param name="q">Quantity</param>
-        /// <returns>Originally argument item.</returns>
-        public Item AddItem(Item i, [CanBeNull] InventorySystem o = null, byte? q = null)
-        {
-            if (o != null)
-                _ = o.RemoveItem(i);
-
-            var index = IndexOfItem(i);
-            if (index != null)
+            if (HasFreeSlot(out var freeSlot)) //? Gets first available slot.
             {
-                if (q != null)
-                    Items[(int)index].quantity += (byte)q;
-                else
-                    Items[(int)index].quantity += i.quantity;
-                return i;
+                freeSlot.UpdateSlot(i, a);
+                OnInventorySlotChange?.Invoke(freeSlot);
+                return true;
             }
 
-            Items.Add(i);
-            return i;
-        }
-        
-        public Item RemoveItem(Item i)
-        {
-            Items.Remove(i);
-            return i;
+            return false;
         }
 
-        private void CloseInventory()
+        public bool ContainsItem(InventoryItemData iData, out List<InventorySlot> invSlot)
         {
-            panel.SetActive(false);
-            PlayerCharacter.PlayerRef.Inventory.panel.SetActive(false);
-            PlayerCharacter.PlayerRef.hasExternalInventoryOpen = false;
+            invSlot = Slots.Where(i => i.ItemData == iData).ToList();
+            return invSlot != null;
+        }
+
+        public bool HasFreeSlot(out InventorySlot freeSlot)
+        {
+            freeSlot = Slots.FirstOrDefault(i => i.ItemData == null);
+            return freeSlot != null;
         }
     }
 }

@@ -1,15 +1,10 @@
 using Characters;
-using Items.Inventory;
-using Items;
 
 namespace Weaponry
 {
-    public abstract class AbstractWeapon : Item
+    public abstract class AbstractWeapon
     {
         public float Damage { get; protected set; }
         private int _rechargeTime;
-
-        /// <param name="t">Target</param>
-        protected abstract void DamageTarget(Character t);
     }
 }
