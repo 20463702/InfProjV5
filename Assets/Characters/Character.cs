@@ -14,10 +14,10 @@ namespace Characters
         protected Rigidbody2D Rigidbody;
         [field: NonSerialized]
         protected float Speed = 4f;
-
         public float health;
         public InventorySystem Inventory { get; protected set; }
         protected float MaxHealth;
+        protected AbstractWeapon Weapon;
         protected void Start()
         {
             Inventory = gameObject.GetComponentInChildren<InventorySystem>();
@@ -38,7 +38,9 @@ namespace Characters
         
 #endregion Character Movement
 
-        public void TakeDamage(AbstractWeapon w) =>
+        public void TakeDamage(AbstractWeapon w)
+        {
             health -= w.Damage;
+        }
     }
 }

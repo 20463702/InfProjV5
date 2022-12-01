@@ -9,7 +9,6 @@ namespace Characters.Enemy1
         public GameObject enemy1;
         public Transform respawn;
         private Vector2 _movement;
-        public float speed;
         private Transform _target;
 
         private new void Start()
@@ -20,14 +19,13 @@ namespace Characters.Enemy1
 
         private void Update()
         {
-            transform.position = Vector2.MoveTowards(transform.position, _target.position, speed * Time.deltaTime);
-            transform.position = new Vector3(transform.position.x, transform.position.y, -2);
+            EnemyMovement();
         }
 
-        private void OnCollisionEnter2D(Collision2D col)
+        private void OnCollisionStay2D(Collision2D col)
         {
             col.collider.gameObject.TryGetComponent(out Character c);
-            c.health -= damage;
+            c.TakeDamage(Weapon);
         }
     
         /// <param name="attackDamage"></param>
@@ -44,7 +42,19 @@ namespace Characters.Enemy1
             enemy1.transform.position = respawn.position;  
             health = MaxHealth;
         }
-        
-        
+
+        private void EnemyMovement()
+        {
+            if (Vector2.Distance(transform.position, _target.position) < 1.2f)
+            {
+                Speed = 0f;
+            }
+            else
+            {
+                Speed = 4f;
+                transform.position = Vector2.MoveTowards(transform.position, _target.position, Speed * Time.deltaTime);
+                transform.position = new Vector3(transform.position.x, transform.position.y, -2);
+            }
+        }
     }
 }

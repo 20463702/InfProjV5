@@ -5053,7 +5053,6 @@ MonoBehaviour:
   damage: 20
   enemy1: {fileID: 1624969376}
   respawn: {fileID: 687505295}
-  speed: 2
 --- !u!61 &1624969378
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5078,7 +5077,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.5, y: 1.5}
   m_EdgeRadius: 0
 --- !u!212 &1624969379
 SpriteRenderer:
