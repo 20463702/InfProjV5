@@ -15,7 +15,6 @@ namespace Characters
         [SerializeField] protected Transform respawn;
         [field: NonSerialized] protected float Speed = 4f;
         public AbstractWeapon Weapon;
-
         public float health;
         public InventorySystem Inventory { get; protected set; }
         protected float MaxHealth;
@@ -44,26 +43,40 @@ namespace Characters
         
 #endregion Character Movement
 
-        protected virtual void Attack()
-        {
-            if (Weapon.DeltaTimeBetweenAttacks > 0)
-            {
-                Weapon.UpdateDeltaTime();
-                return;
-            }
-        }
+        // protected virtual void Attack()
+        // {
+        //     if (Weapon.DeltaTimeBetweenAttacks > 0)
+        //     {
+        //         Weapon.UpdateDeltaTime();
+        //         return;
+        //     }
+        // }
 
         public void TakeDamage(AbstractWeapon w)
         {
             health -= w.Damage;
             if (health <= 0f)
                 Die();
-            Debug.Log(health);
         } 
-        void Die()
+        private void Die()
         {
             transform.position = respawn.position;  
             health = MaxHealth;
+        }
+        
+        protected void Attack<T>() where T : Character
+        {
+            if (Weapon.DeltaTimeBetweenAttacks <= 0)
+            {
+                var colliders = Physics2D.OverlapCircleAll(transform.position, Weapon.Range);
+                for (int i = 0, n = colliders.Length; i < n; i++)
+                {
+                    if (colliders[i].TryGetComponent<T>(out var c) 
+                        && Vector3.Distance(transform.position, colliders[i].transform.position) <= Weapon.Range)
+                        c.TakeDamage(Weapon);
+                }
+                Weapon.ResetDeltaTime();
+            }
         }
     }
 }

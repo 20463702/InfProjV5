@@ -1,6 +1,7 @@
 using Characters.PlayerCharacter;
 using System;
 using UnityEngine;
+using Weaponry.Melee;
 
 namespace Characters.Enemy1
 {
@@ -16,26 +17,39 @@ namespace Characters.Enemy1
             Layer = LayerMask.NameToLayer("Enemies");
             MaxHealth = health;
             Speed = Speed == 0f ? 4.0f : Speed;
+            
+            //haal weg
+            Weapon = new MeleeWeapon(40f, 2f, 1f);
         }
 
         
         private void Update()
         {
-            transform.position = Vector2.MoveTowards(transform.position, 
-                PlayerCharacter.PlayerCharacter.PlayerRef.transform.position, 
-                Speed * Time.deltaTime);
-            transform.position = new Vector3(transform.position.x, transform.position.y, -2);
+            base.Update();
             
-#if UNITY_EDITOR
-            if (health != 100f)
-                Debug.Log($"{health}    {MaxHealth}");
-#endif
+            EnemyMovement();
         }
 
-        private void OnCollisionEnter2D(Collision2D col)
+        private void OnCollisionStay2D(Collision2D col)
         {
-            col.collider.gameObject.TryGetComponent(out Character c);
-            c.health -= damage;
+            if (col.collider.gameObject.TryGetComponent<PlayerCharacter.PlayerCharacter>(out _))
+                Attack<PlayerCharacter.PlayerCharacter>();
+            
+            // c.TakeDamage(Weapon);
+        }
+
+        private void EnemyMovement()
+        {
+            if (Vector2.Distance(transform.position, PlayerCharacter.PlayerCharacter.PlayerRef.transform.position) < 1.2f)
+            {
+                Speed = 0f;
+            }
+            else
+            {
+                Speed = 4f;
+                transform.position = Vector2.MoveTowards(transform.position, PlayerCharacter.PlayerCharacter.PlayerRef.transform.position, Speed * Time.deltaTime);
+                transform.position = new Vector3(transform.position.x, transform.position.y, -2);
+            }
         }
     }
 }

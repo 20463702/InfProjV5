@@ -1,4 +1,3 @@
-using System;
 using Characters.Enemy1;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -22,14 +21,14 @@ namespace Characters.PlayerCharacter
         {
             PlayerRef = this;
 
-            base.Start(); //alle toekomstige zooi na dit zetten anders daantje de niet-neger bo os
+            base.Start(); //alle toekomstige zooi na dit zetten anders daantje de niet-neger (maar wel faggot) boos
 
             Inventory = gameObject.GetComponentInChildren<PlayerInventory>();
 
             InitHealth();
             
             //! delete dit
-            Weapon = new MeleeWeapon(40f, 2f, 1f);
+            Weapon = new MeleeWeapon(40f, 2f, 0.5f);
         }
 
         protected void Update()
@@ -43,7 +42,7 @@ namespace Characters.PlayerCharacter
             if (health <= 0f)
                 Respawn();
             if (Input.GetMouseButton(0))
-                Attack();
+                Attack<Enemy>();
         }
 
         protected override void Movement() =>
@@ -75,23 +74,19 @@ namespace Characters.PlayerCharacter
             health = MaxHealth;
         }
 
-        protected override void Attack()
-        {
-            Debug.Log(Weapon.DeltaTimeBetweenAttacks);
-            if (Weapon.DeltaTimeBetweenAttacks <= 0)
-            {
-                if (Input.GetMouseButton(0))
-                {
-                    var colliders = Physics2D.OverlapCircleAll(transform.position, Weapon.Range);
-                    for (int i = 0, n = colliders.Length; i < n; i++)
-                    {
-                        if (colliders[i].TryGetComponent<Enemy>(out var c) 
-                            && Vector3.Distance(transform.position, colliders[i].transform.position) <= Weapon.Range)
-                            c.TakeDamage(Weapon);
-                    }
-                    Weapon.ResetDeltaTime();
-                }
-            }
-        }
+        // protected override void Attack()
+        // {
+        //     if (Weapon.DeltaTimeBetweenAttacks <= 0)
+        //     {
+        //         var colliders = Physics2D.OverlapCircleAll(transform.position, Weapon.Range);
+        //         for (int i = 0, n = colliders.Length; i < n; i++)
+        //         {
+        //             if (colliders[i].TryGetComponent<Enemy>(out var c) 
+        //                 && Vector3.Distance(transform.position, colliders[i].transform.position) <= Weapon.Range)
+        //                 c.TakeDamage(Weapon);
+        //         }
+        //         Weapon.ResetDeltaTime();
+        //     }
+        // }
     }
 }
