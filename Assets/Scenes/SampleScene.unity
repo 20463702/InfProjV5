@@ -4813,23 +4813,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5642970466205562870, guid: 93b93c466d9b4b8b9a044b25c74266da, type: 3}
   m_PrefabInstance: {fileID: 5642970466535058422}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1302075590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1302075584}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49f6ffc3bf1f345429ba9c58fbde902a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 0
-  maxHealth: 0
-  healthBar: {fileID: 333098820}
-  player: {fileID: 0}
-  respawn: {fileID: 0}
 --- !u!4 &1302075595 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5642970466205562867, guid: 93b93c466d9b4b8b9a044b25c74266da, type: 3}
@@ -5049,9 +5032,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe9bae0dd716ae54f9db0c51ad05170b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 60
+  respawn: {fileID: 516011705}
+  health: 100
   damage: 20
-  enemy1: {fileID: 1624969376}
   respawn: {fileID: 687505295}
 --- !u!61 &1624969378
 BoxCollider2D:

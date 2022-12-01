@@ -1,15 +1,27 @@
 using Characters;
 using Items.Inventory;
 using Items;
+using UnityEngine;
 
 namespace Weaponry
 {
-    public abstract class AbstractWeapon : Item
+    public abstract class AbstractWeapon
     {
         public float Damage { get; protected set; }
-        private int _rechargeTime;
+        public float Range { get; protected set; }
+        public float DeltaTimeBetweenAttacks { get; protected set; }
+        public float TimeBetweenAttacks { get; protected set; }
 
-        /// <param name="t">Target</param>
-        protected abstract void DamageTarget(Character t);
+        public void UpdateDeltaTime()
+        {
+            DeltaTimeBetweenAttacks = DeltaTimeBetweenAttacks > 0 ? DeltaTimeBetweenAttacks - Time.deltaTime : 0;
+        }
+
+        public void ResetDeltaTime()
+        {
+            DeltaTimeBetweenAttacks = TimeBetweenAttacks;
+        }
+
+
     }
 }

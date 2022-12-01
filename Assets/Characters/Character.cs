@@ -12,12 +12,12 @@ namespace Characters
     public class Character : MonoBehaviour
     {
         protected Rigidbody2D Rigidbody;
-        [field: NonSerialized]
-        protected float Speed = 4f;
+        [SerializeField] protected Transform respawn;
+        [field: NonSerialized] protected float Speed = 4f;
+        public AbstractWeapon Weapon;
         public float health;
         public InventorySystem Inventory { get; protected set; }
         protected float MaxHealth;
-        protected AbstractWeapon Weapon;
         protected void Start()
         {
             Inventory = gameObject.GetComponentInChildren<InventorySystem>();
@@ -26,8 +26,13 @@ namespace Characters
             Rigidbody.freezeRotation = true;
             MaxHealth = health;
         }
-        
-#region Character Movement
+
+        protected void Update()
+        {
+            Weapon.UpdateDeltaTime();
+        }
+
+        #region Character Movement
 
         protected virtual void Movement() { }
 
@@ -38,9 +43,40 @@ namespace Characters
         
 #endregion Character Movement
 
+        // protected virtual void Attack()
+        // {
+        //     if (Weapon.DeltaTimeBetweenAttacks > 0)
+        //     {
+        //         Weapon.UpdateDeltaTime();
+        //         return;
+        //     }
+        // }
+
         public void TakeDamage(AbstractWeapon w)
         {
             health -= w.Damage;
+            if (health <= 0f)
+                Die();
+        } 
+        private void Die()
+        {
+            transform.position = respawn.position;  
+            health = MaxHealth;
+        }
+        
+        protected void Attack<T>() where T : Character
+        {
+            if (Weapon.DeltaTimeBetweenAttacks <= 0)
+            {
+                var colliders = Physics2D.OverlapCircleAll(transform.position, Weapon.Range);
+                for (int i = 0, n = colliders.Length; i < n; i++)
+                {
+                    if (colliders[i].TryGetComponent<T>(out var c) 
+                        && Vector3.Distance(transform.position, colliders[i].transform.position) <= Weapon.Range)
+                        c.TakeDamage(Weapon);
+                }
+                Weapon.ResetDeltaTime();
+            }
         }
     }
 }

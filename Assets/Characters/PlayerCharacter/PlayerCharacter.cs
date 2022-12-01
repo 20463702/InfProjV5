@@ -1,11 +1,9 @@
-using System;
-using System.Diagnostics;
 using Characters.Enemy1;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Weaponry;
-using Debug = System.Diagnostics.Debug;
+using Weaponry.Melee;
 
 namespace Characters.PlayerCharacter
 {
@@ -15,40 +13,36 @@ namespace Characters.PlayerCharacter
         ///     Global player ref.
         /// </summary>
         public static PlayerCharacter PlayerRef;
-
-        private readonly Stopwatch _invToggleSw = new();
+        
         public bool hasExternalInventoryOpen;
         [SerializeField] private Image healthBar;
-
-        public GameObject player;
-        public Transform respawn;
-        public Transform attackPoint;
-        public float attackRange = 0.5f;
-        public LayerMask enemyLayers;
-        public int attackDamage = 20;
 
         protected new void Start()
         {
             PlayerRef = this;
 
-            base.Start(); //alle toekomstige zooi na dit zetten anders daantje boos
+            base.Start(); //alle toekomstige zooi na dit zetten anders daantje de niet-neger (maar wel faggot) boos
 
             Inventory = gameObject.GetComponentInChildren<PlayerInventory>();
-            _invToggleSw.Start();
 
             InitHealth();
+            
+            //! delete dit
+            Weapon = new MeleeWeapon(40f, 2f, 0.5f);
         }
 
         protected void Update()
         {
+            base.Update();
+            
             Movement();
             Sprint();
             InventoryToggle();
             UpdateHealthBar();
             if (health <= 0f)
                 Respawn();
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-                MeleeAttack();
+            if (Input.GetMouseButton(0))
+                Attack<Enemy>();
         }
 
         protected override void Movement() =>
@@ -56,10 +50,9 @@ namespace Characters.PlayerCharacter
 
         private void InventoryToggle()
         {
-            if (hasExternalInventoryOpen || !Input.GetKey(KeyCode.I) || _invToggleSw.ElapsedMilliseconds < 300) return;
+            if (hasExternalInventoryOpen || !Input.GetKey(KeyCode.I)) return;
 
             Inventory.panel.gameObject.SetActive(!Inventory.panel.gameObject.activeInHierarchy);
-            _invToggleSw.Restart();
             hasExternalInventoryOpen = false;
         }
 
@@ -77,25 +70,23 @@ namespace Characters.PlayerCharacter
 
         private void Respawn()
         {
-            player.transform.position = respawn.position;
+            transform.position = respawn.position;
             health = MaxHealth;
         }
 
-        void MeleeAttack()
-        {
-            Collider2D [] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
-
-            foreach (Collider2D enemy in hitEnemies)
-            {
-                enemy.GetComponent<Enemy>().Damage(attackDamage);   
-            }
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            if (attackPoint == null)
-                return;
-            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-        }
+        // protected override void Attack()
+        // {
+        //     if (Weapon.DeltaTimeBetweenAttacks <= 0)
+        //     {
+        //         var colliders = Physics2D.OverlapCircleAll(transform.position, Weapon.Range);
+        //         for (int i = 0, n = colliders.Length; i < n; i++)
+        //         {
+        //             if (colliders[i].TryGetComponent<Enemy>(out var c) 
+        //                 && Vector3.Distance(transform.position, colliders[i].transform.position) <= Weapon.Range)
+        //                 c.TakeDamage(Weapon);
+        //         }
+        //         Weapon.ResetDeltaTime();
+        //     }
+        // }
     }
 }

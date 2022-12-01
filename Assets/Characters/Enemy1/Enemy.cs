@@ -1,58 +1,53 @@
+using Characters.PlayerCharacter;
 using System;
 using UnityEngine;
+using Weaponry.Melee;
 
 namespace Characters.Enemy1
 {
     public class Enemy : Character
     {
+        public static LayerMask Layer;
         public float damage;
-        public GameObject enemy1;
-        public Transform respawn;
         private Vector2 _movement;
-        private Transform _target;
 
-        private new void Start()
+        protected void Start()
         {
+            base.Start();
+            Layer = LayerMask.NameToLayer("Enemies");
             MaxHealth = health;
-            _target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+            Speed = Speed == 0f ? 4.0f : Speed;
+            
+            //haal weg
+            Weapon = new MeleeWeapon(40f, 2f, 1f);
         }
 
+        
         private void Update()
         {
+            base.Update();
+            
             EnemyMovement();
         }
 
         private void OnCollisionStay2D(Collision2D col)
         {
-            col.collider.gameObject.TryGetComponent(out Character c);
-            c.TakeDamage(Weapon);
-        }
-    
-        /// <param name="attackDamage"></param>
-        public void Damage(int attackDamage)
-        {
-            health -= damage;
-
-            if (health <= 0f)
-                Die();
-        }
-
-        private void Die()
-        {
-            enemy1.transform.position = respawn.position;  
-            health = MaxHealth;
+            if (col.collider.gameObject.TryGetComponent<PlayerCharacter.PlayerCharacter>(out _))
+                Attack<PlayerCharacter.PlayerCharacter>();
+            
+            // c.TakeDamage(Weapon);
         }
 
         private void EnemyMovement()
         {
-            if (Vector2.Distance(transform.position, _target.position) < 1.2f)
+            if (Vector2.Distance(transform.position, PlayerCharacter.PlayerCharacter.PlayerRef.transform.position) < 1.2f)
             {
                 Speed = 0f;
             }
             else
             {
                 Speed = 4f;
-                transform.position = Vector2.MoveTowards(transform.position, _target.position, Speed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, PlayerCharacter.PlayerCharacter.PlayerRef.transform.position, Speed * Time.deltaTime);
                 transform.position = new Vector3(transform.position.x, transform.position.y, -2);
             }
         }
