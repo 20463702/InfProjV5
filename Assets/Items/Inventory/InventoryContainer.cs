@@ -1,3 +1,4 @@
+using Items.ItemData;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,7 +11,7 @@ namespace Items.Inventory
         
         public static UnityAction<InventorySystem> OnDynamicInventoryDisplayReq;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             InvSys = new(inventorySize);
         }

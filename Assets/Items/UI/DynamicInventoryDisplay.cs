@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Items.Inventory;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Items.UI
@@ -13,6 +14,8 @@ namespace Items.UI
         {
             ClearSlots();
             InvSystem = invSys;
+            if (InvSystem != null) 
+                InvSystem.OnInventorySlotChange += UpdateSlot;
             AssignSlot(invSys);
         }
     
@@ -41,6 +44,12 @@ namespace Items.UI
             
             if (SlotDictionary != null)
                 SlotDictionary.Clear();
+        }
+
+        private void OnDisable()
+        {
+            if (InvSystem != null)
+                InvSystem.OnInventorySlotChange -= UpdateSlot;
         }
     }
 }

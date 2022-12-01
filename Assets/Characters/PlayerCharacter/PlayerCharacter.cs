@@ -20,6 +20,7 @@ namespace Characters.PlayerCharacter
             basePlayerSpeed = basePlayerSpeed != 0f ? basePlayerSpeed : 4.0f;
             sprintPlayerSpeed = sprintPlayerSpeed != 0f ? sprintPlayerSpeed : 6.5f;
         }
+        
         protected void Update()
         {
             Sprint();
