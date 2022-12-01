@@ -11173,6 +11173,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1674516571}
   m_CullTransparentMesh: 1
+--- !u!114 &1732668461 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1467270837882843648, guid: 5cb443538c1789558aaf6c557111204e, type: 3}
+  m_PrefabInstance: {fileID: 7981357133945123873}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34961e053d459cf69ba4c3a3aa4a3eab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1751787363
 GameObject:
   m_ObjectHideFlags: 0
@@ -12707,7 +12718,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2016929536}
   - component: {fileID: 2016929535}
-  - component: {fileID: 2016929534}
+  - component: {fileID: 2016929537}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -12715,26 +12726,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2016929534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2016929533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
 --- !u!114 &2016929535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12765,6 +12756,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2016929537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016929533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!1 &2070544888
 GameObject:
   m_ObjectHideFlags: 0
@@ -13057,6 +13068,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SmallChest
       objectReference: {fileID: 0}
+    - target: {fileID: 4850989771831976313, guid: 628a867884f300bb3969e5beffb53a95, type: 3}
+      propertyPath: inventorySize
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4850989771831976315, guid: 628a867884f300bb3969e5beffb53a95, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -13198,6 +13213,10 @@ PrefabInstance:
     - target: {fileID: 7570240774552677895, guid: aa888e71610c5c0e9939775db399b33d, type: 3}
       propertyPath: m_Name
       value: LargeChest
+      objectReference: {fileID: 0}
+    - target: {fileID: 7570240774552677913, guid: aa888e71610c5c0e9939775db399b33d, type: 3}
+      propertyPath: inventorySize
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7570240774552677915, guid: aa888e71610c5c0e9939775db399b33d, type: 3}
       propertyPath: m_RootOrder
@@ -13412,6 +13431,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5766470460623355719, guid: 5cb443538c1789558aaf6c557111204e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5766470460623355719, guid: 5cb443538c1789558aaf6c557111204e, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7981357134388005445, guid: 5cb443538c1789558aaf6c557111204e, type: 3}
       propertyPath: m_Pivot.y
       value: 0
@@ -13544,6 +13571,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InventoryUIController
       objectReference: {fileID: 0}
+    - target: {fileID: 7981357134862034030, guid: 5cb443538c1789558aaf6c557111204e, type: 3}
+      propertyPath: chestInventoryPanel
+      value: 
+      objectReference: {fileID: 1732668461}
     - target: {fileID: 7981357134862034031, guid: 5cb443538c1789558aaf6c557111204e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -13626,6 +13657,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7981357134862034031, guid: 5cb443538c1789558aaf6c557111204e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990575131180424624, guid: 5cb443538c1789558aaf6c557111204e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990575131180424624, guid: 5cb443538c1789558aaf6c557111204e, type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

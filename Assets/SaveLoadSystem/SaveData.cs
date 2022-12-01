@@ -13,11 +13,5 @@ namespace SaveLoadSystem
         {
             chestDictionary = new();
         }
-
-        public static XDocument ToXml(SaveData d) =>
-            JsonConvert.DeserializeXNode(JsonUtility.ToJson(d, true));
-
-        public static SaveData FromXml(XDocument xml) =>
-            JsonUtility.FromJson<SaveData>(JsonConvert.SerializeXNode(xml));
     }
 }

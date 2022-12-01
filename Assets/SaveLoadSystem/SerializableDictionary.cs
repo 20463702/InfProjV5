@@ -8,8 +8,8 @@ namespace SaveLoadSystem
     [Serializable]
     public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
     {
-        [XmlElement("key")] [SerializeField] private List<TKey> keys = new();
-        [XmlElement("value")] [SerializeField] private List<TValue> values = new();
+        [SerializeField] private List<TKey> keys = new();
+        [SerializeField] private List<TValue> values = new();
  
         public void OnBeforeSerialize()
         {
