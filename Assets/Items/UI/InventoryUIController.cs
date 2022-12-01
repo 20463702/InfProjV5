@@ -36,7 +36,7 @@ namespace Items.UI
             if (Input.GetKey(KeyCode.Escape) && playerInventoryPanel.gameObject.activeInHierarchy)
                 playerInventoryPanel.gameObject.SetActive(false);
         }
-
+        
         private void DisplayInventory(InventorySystem invSys)
         {
             chestInventoryPanel.gameObject.SetActive(true);

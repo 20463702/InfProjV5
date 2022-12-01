@@ -30,6 +30,7 @@ namespace Items.UI
 
         public void SlotClicked(InventorySlotUI uiSlot)
         {
+            
             bool isShiftPressed = Input.GetKey(KeyCode.LeftShift);
             
             if (uiSlot.AssignedSlot.ItemData != null &&
