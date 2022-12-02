@@ -7,7 +7,6 @@ namespace Characters.Interactor
     public class Interactor : MonoBehaviour
     {
         public Transform interactionPoint;
-        public LayerMask interactionLayer;
         public float interactionPointRadius = 1f;
         public bool IsInteracting { get; private set; }
 
