@@ -2,7 +2,7 @@ using Characters.Interactor;
 using Interfaces;
 using UnityEngine.Events;
 
-namespace Items.Inventory
+namespace Items.Inventory.Chests
 {
     public class ChestInventory : InventoryContainer, IInteractable
     {
