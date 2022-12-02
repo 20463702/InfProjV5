@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 570de9b91fff4d87d89421fe9c190b9c, type: 3}
-  m_Name: HealthPotion
+  m_Name: Apple
   m_EditorClassIdentifier: 
-  id: 0
-  displayName: Health Potion
-  description: Restores 50 health.
-  icon: {fileID: 21300000, guid: e52ea25af699fd445b7046374f81a5b9, type: 3}
-  maxStackSize: 5
+  id: 3
+  displayName: Apple
+  description: Restores 10 health.
+  icon: {fileID: 21300000, guid: 5d9ba4e7d0964044ea54abe409d81dfd, type: 3}
+  maxStackSize: 20
