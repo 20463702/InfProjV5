@@ -10,7 +10,7 @@ namespace Characters.Enemy
         public static LayerMask Layer;
         private Vector2 _movement;
 
-        protected void Start()
+        protected override void Start()
         {
             base.Start();
             MaxHealth = Health;
@@ -29,8 +29,6 @@ namespace Characters.Enemy
         {
             if (col.collider.gameObject.TryGetComponent<PlayerCharacter.PlayerCharacter>(out _))
                 Attack<PlayerCharacter.PlayerCharacter>();
-            
-            // c.TakeDamage(Weapon);
         }
 
         private void EnemyMovement()

@@ -6,7 +6,7 @@ using Weaponry.Melee;
 namespace Characters
 {
     
-    [RequireComponent(typeof(Rigidbody2D), typeof(InventoryContainer))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(InventoryContainer), typeof(BoxCollider2D))]
     public class Character : MonoBehaviour
     {
         protected Rigidbody2D Rigidbody;
@@ -50,6 +50,8 @@ namespace Characters
         {
             transform.position = respawn.position;  
             Health = MaxHealth;
+
+            Start();
         }
         
         protected void Attack<T>() where T : Character
