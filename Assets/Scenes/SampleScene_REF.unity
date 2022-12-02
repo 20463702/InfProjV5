@@ -7815,6 +7815,22 @@ PrefabInstance:
       propertyPath: invItemPrefab
       value: 
       objectReference: {fileID: 5871664388107466023, guid: 9c3cdb7d46dd77310995abcf2c71f516, type: 3}
+    - target: {fileID: 5642970466205562866, guid: 93b93c466d9b4b8b9a044b25c74266da, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4dae20834838703b5b949bd1db0b2ca4, type: 3}
+    - target: {fileID: 5642970466205562866, guid: 93b93c466d9b4b8b9a044b25c74266da, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5642970466205562866, guid: 93b93c466d9b4b8b9a044b25c74266da, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5642970466205562866, guid: 93b93c466d9b4b8b9a044b25c74266da, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5642970466205562867, guid: 93b93c466d9b4b8b9a044b25c74266da, type: 3}
       propertyPath: m_RootOrder
       value: 1
