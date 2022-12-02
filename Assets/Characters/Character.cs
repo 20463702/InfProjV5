@@ -1,6 +1,7 @@
 using Items.Inventory;
 using UnityEngine;
 using Weaponry;
+using Weaponry.Melee;
 
 namespace Characters
 {
@@ -13,7 +14,6 @@ namespace Characters
         public float Health { get; private set; }
         [SerializeField] protected Transform respawn;
         public AbstractWeapon Weapon;
-        public float health;
         protected float MaxHealth;
         
         protected virtual void Start()
@@ -21,7 +21,11 @@ namespace Characters
             Rigidbody = GetComponent<Rigidbody2D>();
             Rigidbody.gravityScale = 0;
             Rigidbody.freezeRotation = true;
-            MaxHealth = health;
+            
+            Health = Health > 0 ? Health : 100;
+            MaxHealth = Health;
+            
+            Weapon ??= new MeleeWeapon(40f, 2f, 1f);
         }
 
         protected virtual void Update()
@@ -38,14 +42,14 @@ namespace Characters
         
         public void TakeDamage(AbstractWeapon w)
         {
-            health -= w.Damage;
-            if (health <= 0f)
+            Health -= w.Damage;
+            if (Health <= 0f)
                 Die();
         } 
         private void Die()
         {
             transform.position = respawn.position;  
-            health = MaxHealth;
+            Health = MaxHealth;
         }
         
         protected void Attack<T>() where T : Character

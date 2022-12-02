@@ -8,18 +8,13 @@ namespace Characters.Enemy
     public class Enemy : Character
     {
         public static LayerMask Layer;
-        public float damage;
         private Vector2 _movement;
 
         protected void Start()
         {
             base.Start();
-            Layer = LayerMask.NameToLayer("Enemies");
-            MaxHealth = health;
+            MaxHealth = Health;
             Speed = Speed == 0f ? 4.0f : Speed;
-            
-            //haal weg
-            Weapon = new MeleeWeapon(40f, 2f, 1f);
         }
 
         
