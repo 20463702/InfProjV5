@@ -11,15 +11,23 @@ namespace Characters
         protected Rigidbody2D Rigidbody;
         protected float Speed = 4f;
         public float Health { get; private set; }
-
-        protected void Start()
+        [SerializeField] protected Transform respawn;
+        public AbstractWeapon Weapon;
+        public float health;
+        protected float MaxHealth;
+        
+        protected virtual void Start()
         {
             Rigidbody = GetComponent<Rigidbody2D>();
             Rigidbody.gravityScale = 0;
             Rigidbody.freezeRotation = true;
+            MaxHealth = health;
         }
-        
-#region Character Movement
+
+        protected virtual void Update()
+        {
+            Weapon.UpdateDeltaTime();
+        }
 
         protected virtual void Movement() { }
 
@@ -28,9 +36,31 @@ namespace Characters
         protected void Move(float valH, float valV) =>
             Rigidbody.velocity = new Vector2(valH * Speed, valV * Speed);
         
-#endregion Character Movement
-
-        public void TakeDamage(AbstractWeapon w) =>
-            Health -= w.Damage;
+        public void TakeDamage(AbstractWeapon w)
+        {
+            health -= w.Damage;
+            if (health <= 0f)
+                Die();
+        } 
+        private void Die()
+        {
+            transform.position = respawn.position;  
+            health = MaxHealth;
+        }
+        
+        protected void Attack<T>() where T : Character
+        {
+            if (Weapon.DeltaTimeBetweenAttacks <= 0)
+            {
+                var colliders = Physics2D.OverlapCircleAll(transform.position, Weapon.Range);
+                for (int i = 0, n = colliders.Length; i < n; i++)
+                {
+                    if (colliders[i].TryGetComponent<T>(out var c) 
+                        && Vector3.Distance(transform.position, colliders[i].transform.position) <= Weapon.Range)
+                        c.TakeDamage(Weapon);
+                }
+                Weapon.ResetDeltaTime();
+            }
+        }
     }
 }
